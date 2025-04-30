@@ -3,10 +3,10 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Separator } from '@/components/ui/separator'
 import { SidebarInset, SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar'
 import React from 'react'
-import { MdAttachMoney } from 'react-icons/md'
-import { FaRegCreditCard } from "react-icons/fa";
-import { GoPulse } from "react-icons/go";
-import { PiUsersThreeBold } from "react-icons/pi";
+import { MdReport } from 'react-icons/md'
+import { FaCheckCircle } from "react-icons/fa";
+import { BiTime } from "react-icons/bi";
+import { MdWarning } from "react-icons/md";
 import { OverviewChart } from '@/components/OverviewChart'
 import { RecentReports } from '@/components/RecentReports'
 
@@ -28,52 +28,51 @@ export const Dashboard = () => {
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4 ">
             <Card>
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">
-                  Ingresos Totales
+                <CardTitle className="text-sm font-medium text-blue-700">
+                  Reportes Totales
                 </CardTitle>
-
-                <MdAttachMoney />
+                <MdReport className="text-blue-600" />
               </CardHeader>
               <CardContent>
-                <div className="text-2xl font-bold">$45,231.89</div>
-                <p className="text-xs text-muted-foreground">
-                  +20.1% respecto al mes pasado
+                <div className="text-2xl font-bold text-blue-600">500</div>
+                <p className="text-xs text-blue-500">
+                  +20% respecto al mes pasado
                 </p>
               </CardContent>
             </Card>
             <Card>
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">Suscripciones</CardTitle>
-                <PiUsersThreeBold />
+                <CardTitle className="text-sm font-medium text-green-700">Reportes Resueltos</CardTitle>
+                <FaCheckCircle className="text-green-600" />
               </CardHeader>
               <CardContent>
-                <div className="text-2xl font-bold">+2350</div>
-                <p className="text-xs text-muted-foreground">
-                  +180.1% respecto al mes pasado
+                <div className="text-2xl font-bold text-green-600">375</div>
+                <p className="text-xs text-green-500">
+                  75% tasa de resolución
                 </p>
               </CardContent>
             </Card>
             <Card>
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">Ventas</CardTitle>
-                <FaRegCreditCard />
+                <CardTitle className="text-sm font-medium text-amber-700">Pendientes</CardTitle>
+                <BiTime className="text-amber-600" />
               </CardHeader>
               <CardContent>
-                <div className="text-2xl font-bold">+12,234</div>
-                <p className="text-xs text-muted-foreground">
-                  +19% respecto al mes pasado
+                <div className="text-2xl font-bold text-amber-600">100</div>
+                <p className="text-xs text-amber-500">
+                  20% del total
                 </p>
               </CardContent>
             </Card>
             <Card>
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">Activos Ahora</CardTitle>
-                <GoPulse />
+                <CardTitle className="text-sm font-medium text-red-700">Urgentes</CardTitle>
+                <MdWarning className="text-red-600" />
               </CardHeader>
               <CardContent>
-                <div className="text-2xl font-bold">+573</div>
-                <p className="text-xs text-muted-foreground">
-                  +201 en la última hora
+                <div className="text-2xl font-bold text-red-600">25</div>
+                <p className="text-xs text-red-500">
+                  5% del total de reportes
                 </p>
               </CardContent>
             </Card>
@@ -82,7 +81,8 @@ export const Dashboard = () => {
           <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7 grid-cols-1 mt-5">
             <Card className="lg:col-span-4 md:col-span-2 col-span-1">
               <CardHeader>
-                <CardTitle>Resumen General</CardTitle>
+                <CardTitle className="text-gray-700">Tendencia de Reportes</CardTitle>
+                <CardDescription className="text-gray-600">Análisis de los últimos 30 días</CardDescription>
               </CardHeader>
               <CardContent className="pl-2">
                 <OverviewChart />
@@ -90,8 +90,8 @@ export const Dashboard = () => {
             </Card>
             <Card className="lg:col-span-3 md:col-span-2 col-span-1">
               <CardHeader>
-                <CardTitle>Ventas Recientes</CardTitle>
-                <CardDescription>Realizaste 265 ventas este mes.</CardDescription>
+                <CardTitle className="text-gray-700">Reportes Recientes</CardTitle>
+                <CardDescription className="text-gray-600">Se han recibido 15 reportes hoy</CardDescription>
               </CardHeader>
               <CardContent>
                 <RecentReports />

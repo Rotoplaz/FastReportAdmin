@@ -3,52 +3,52 @@ import { ChartConfig, ChartContainer } from "./ui/chart";
 
 const data = [
   {
-    name: "Jan",
-    total: Math.floor(Math.random() * 5000) + 1000,
+    name: "Ene",
+    total: 35,
   },
   {
     name: "Feb",
-    total: Math.floor(Math.random() * 5000) + 1000,
+    total: 38,
   },
   {
     name: "Mar",
-    total: Math.floor(Math.random() * 5000) + 1000,
+    total: 42,
   },
   {
-    name: "Apr",
-    total: Math.floor(Math.random() * 5000) + 1000,
+    name: "Abr",
+    total: 45,
   },
   {
     name: "May",
-    total: Math.floor(Math.random() * 5000) + 1000,
+    total: 48,
   },
   {
     name: "Jun",
-    total: Math.floor(Math.random() * 5000) + 1000,
+    total: 43,
   },
   {
     name: "Jul",
-    total: Math.floor(Math.random() * 5000) + 1000,
+    total: 40,
   },
   {
-    name: "Aug",
-    total: Math.floor(Math.random() * 5000) + 1000,
+    name: "Ago",
+    total: 39,
   },
   {
     name: "Sep",
-    total: Math.floor(Math.random() * 5000) + 1000,
+    total: 44,
   },
   {
     name: "Oct",
-    total: Math.floor(Math.random() * 5000) + 1000,
+    total: 46,
   },
   {
     name: "Nov",
-    total: Math.floor(Math.random() * 5000) + 1000,
+    total: 41,
   },
   {
-    name: "Dec",
-    total: Math.floor(Math.random() * 5000) + 1000,
+    name: "Dic",
+    total: 39,
   },
 ];
 
@@ -79,7 +79,7 @@ export function OverviewChart() {
           fontSize={12}
           tickLine={false}
           axisLine={false}
-          tickFormatter={(value) => `$${value}`}
+          tickFormatter={(value) => `${value}`}
         />
         <Bar
           dataKey="total"
