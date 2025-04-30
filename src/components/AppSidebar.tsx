@@ -17,16 +17,20 @@ import { RxDashboard } from "react-icons/rx";
 import { TbLogout2 } from "react-icons/tb";
 import { cn } from "@/lib/utils";
 import { LuBlocks } from "react-icons/lu";
+import { useLocation } from "react-router";
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 
+  const {pathname} = useLocation();
 
   const menuItems = [
-    { href: "/dashboard/resumen", icon: RxDashboard, label: "Resumen" },
-    { href: "/dashboard/orders", icon: IoFileTrayFullOutline, label: "Órdenes" },
-    { href: "/dashboard/products", icon: LuBlocks, label: "Productos" },
-    { href: "/dashboard/categories", icon: MdOutlineCategory, label: "Categorías" },
+    { href: "/", icon: RxDashboard, label: "Resumen" },
+    { href: "/o", icon: IoFileTrayFullOutline, label: "Órdenes" },
+    { href: "/a", icon: LuBlocks, label: "Productos" },
+    { href: "/i", icon: MdOutlineCategory, label: "Categorías" },
   ];
+
+    
 
   return (
     <Sidebar variant="inset" {...props} collapsible="icon">
@@ -58,7 +62,12 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                   <SidebarMenuButton
                     asChild
                     tooltip={item.label}
-                    className={cn("hover:bg-gray-100")}
+                    className={  cn(
+                      "transition-colors duration-200", 
+                      {
+                        "bg-blue-500 text-white hover:bg-blue-500 hover:text-white": pathname === item.href,
+                      }
+                    )}
                   >
                     <a href={item.href}>
                       <item.icon />
