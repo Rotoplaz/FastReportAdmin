@@ -3,7 +3,7 @@ import { BrowserRouter, Route, Routes } from "react-router";
 import { DashboardLayout } from "./layouts/dashboard/DashboardLayout";
 import { Resumen } from "./views/dashboard/Resumen";
 
-function App() {
+export const App = () => {
 
   return (
     <div className="w-full h-screen">
@@ -14,9 +14,6 @@ function App() {
           </Route>
         </Routes>
       </BrowserRouter>
-      
     </div>
   )
 }
-
-export default App
