@@ -1,5 +1,5 @@
 import { Bar, BarChart, XAxis, YAxis } from "recharts";
-import { ChartConfig, ChartContainer } from "./ui/chart";
+import { ChartConfig, ChartContainer } from "../ui/chart";
 
 const data = [
   {
