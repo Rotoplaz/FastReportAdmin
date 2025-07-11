@@ -1,4 +1,4 @@
-import { AppSidebar } from '@/components/AppSidebar'
+import { AppSidebar } from '@/components/dashboard/AppSidebar'
 import { Separator } from '@/components/ui/separator'
 import { SidebarInset, SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar'
 
@@ -20,7 +20,7 @@ export const DashboardLayout = () => {
                     <Separator orientation="vertical" className="mr-2 h-4" />
                     <h1 className="font-semibold">Admin</h1>
                 </header>
-                <div className="p-4">
+                <div className="p-2">
                     <Outlet />
                 </div>
             </SidebarInset>

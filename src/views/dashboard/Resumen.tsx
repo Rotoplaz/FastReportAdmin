@@ -1,65 +1,91 @@
-import { OverviewChart } from "@/components/OverviewChart"
-import { RecentReports } from "@/components/RecentReports"
+import { OverviewChart } from "@/components/dashboard/OverviewChart"
+import { RecentReports } from "@/components/reports/RecentReports"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { MdReport } from "react-icons/md"
 import { FaCheckCircle } from "react-icons/fa";
 import { BiTime } from "react-icons/bi";
 import { MdWarning } from "react-icons/md";
+import { useQuery } from "@tanstack/react-query";
+import { getMetrics } from "@/reports/actions/get-metrics.action";
+import { MetricCard } from "@/components/dashboard/MetricCard";
+import { getReports } from "@/reports/actions/get-reports.action";
+
 
 export const Resumen = () => {
+
+
+    const today = new Date();
+
+    const year = today.getFullYear();
+    const month = today.getMonth() + 1; 
+    const day = today.getDate();
+
+    const { data: metricsData, isLoading: isLoadingMetrics } = useQuery({
+        queryKey: ['metricsReports'],
+        queryFn: async () => await getMetrics()
+    })
+
+    const { data: reportsData, isLoading: isLoadingReports } = useQuery({
+        queryKey: ['get','reports'],
+        queryFn: async () => await getReports({ year, month, day })
+    })
+
+
     return (
         <>
-            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4 ">
-                <Card>
-                    <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                        <CardTitle className="text-sm font-medium text-blue-700">
-                            Reportes Totales
-                        </CardTitle>
-                        <MdReport className="text-blue-600" />
-                    </CardHeader>
-                    <CardContent>
-                        <div className="text-2xl font-bold text-blue-600">500</div>
-                        <p className="text-xs text-blue-500">
-                            +20% respecto al mes pasado
-                        </p>
-                    </CardContent>
-                </Card>
-                <Card>
-                    <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                        <CardTitle className="text-sm font-medium text-green-700">Reportes Resueltos</CardTitle>
-                        <FaCheckCircle className="text-green-600" />
-                    </CardHeader>
-                    <CardContent>
-                        <div className="text-2xl font-bold text-green-600">375</div>
-                        <p className="text-xs text-green-500">
-                            75% tasa de resolución
-                        </p>
-                    </CardContent>
-                </Card>
-                <Card>
-                    <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                        <CardTitle className="text-sm font-medium text-amber-700">Pendientes</CardTitle>
-                        <BiTime className="text-amber-600" />
-                    </CardHeader>
-                    <CardContent>
-                        <div className="text-2xl font-bold text-amber-600">100</div>
-                        <p className="text-xs text-amber-500">
-                            20% del total
-                        </p>
-                    </CardContent>
-                </Card>
-                <Card>
-                    <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                        <CardTitle className="text-sm font-medium text-red-700">Urgentes</CardTitle>
-                        <MdWarning className="text-red-600" />
-                    </CardHeader>
-                    <CardContent>
-                        <div className="text-2xl font-bold text-red-600">25</div>
-                        <p className="text-xs text-red-500">
-                            5% del total de reportes
-                        </p>
-                    </CardContent>
-                </Card>
+            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 ">
+                <MetricCard
+                    icon={<MdReport />}
+                    title="Reportes Totales"
+                    value={metricsData?.totalReports || 0}
+                    description="+20% respecto al mes pasado"
+                    variant="default"
+                    size="lg"
+                    isLoading={isLoadingMetrics}
+                />
+    
+                <MetricCard
+                    icon={<MdReport />}
+                    title="Reportes En Progreso"
+                    value={metricsData?.reportsInProgress || 0}
+                    description="reportes en tiempo real"
+                    variant="info"
+                    size="lg"
+                    isLoading={isLoadingMetrics}
+                />
+    
+                <MetricCard
+                    icon={<FaCheckCircle />}
+                    title="Reportes Resueltos"
+                    value={metricsData?.reportsCompleted || 0}
+                    description="75% tasa de resolución"
+                    variant="success"
+                    size="lg"
+                    isLoading={isLoadingMetrics}
+                />
+
+                <MetricCard
+                    icon={ <BiTime />}
+                    title="Reportes Pendientes"
+                    value={metricsData?.reportsPending || 0}
+                    description="20% del total"
+                    variant="warning"
+                    size="lg"
+                    isLoading={isLoadingMetrics}
+                />
+
+                <MetricCard
+                    icon={<MdWarning />}
+                    title="Reportes Urgentes"
+                    value={metricsData?.reportsPriorityHigh || 0}
+                    description="5% del total de reportes"
+                    variant="destructive"
+                    size="lg"
+                    isLoading={isLoadingMetrics}
+                />
+
+                       
+
             </div>
 
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7 grid-cols-1 mt-5">
@@ -75,10 +101,12 @@ export const Resumen = () => {
                 <Card className="lg:col-span-3 md:col-span-2 col-span-1">
                     <CardHeader>
                         <CardTitle className="text-gray-700">Reportes Recientes</CardTitle>
-                        <CardDescription className="text-gray-600">Se han recibido 15 reportes hoy</CardDescription>
+                        <CardDescription className="text-gray-600">Se han recibido {reportsData?.length} reportes hoy</CardDescription>
                     </CardHeader>
-                    <CardContent>
-                        <RecentReports />
+                    <CardContent className="px-2">
+                        
+                        <RecentReports reports={reportsData || []} isLoading={isLoadingReports} />
+
                     </CardContent>
                 </Card>
             </div>
