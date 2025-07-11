@@ -26,19 +26,6 @@ const statusVariants = cva("font-medium", {
 });
 
 
-const priorityBadgeVariants = cva("text-xs font-medium", {
-  variants: {
-    priority: {
-      high: "text-red-600 dark:text-red-400",
-      medium: "text-amber-600 dark:text-amber-400",
-      low: "text-gray-600 dark:text-gray-400"
-    }
-  },
-  defaultVariants: {
-    priority: "low"
-  }
-});
-
 interface Props {
   report: Report;
   className?: string;

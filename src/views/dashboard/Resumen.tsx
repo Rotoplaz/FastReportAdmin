@@ -13,6 +13,13 @@ import { getReports } from "@/reports/actions/get-reports.action";
 
 export const Resumen = () => {
 
+
+    const today = new Date();
+
+    const year = today.getFullYear();
+    const month = today.getMonth() + 1; 
+    const day = today.getDate();
+
     const { data: metricsData, isLoading: isLoadingMetrics } = useQuery({
         queryKey: ['metricsReports'],
         queryFn: async () => await getMetrics()
@@ -20,7 +27,7 @@ export const Resumen = () => {
 
     const { data: reportsData, isLoading: isLoadingReports } = useQuery({
         queryKey: ['get','reports'],
-        queryFn: async () => await getReports()
+        queryFn: async () => await getReports({ year, month, day })
     })
 
 
@@ -32,7 +39,7 @@ export const Resumen = () => {
                     title="Reportes Totales"
                     value={metricsData?.totalReports || 0}
                     description="+20% respecto al mes pasado"
-                    variant="info"
+                    variant="default"
                     size="lg"
                     isLoading={isLoadingMetrics}
                 />
@@ -42,7 +49,7 @@ export const Resumen = () => {
                     title="Reportes En Progreso"
                     value={metricsData?.reportsInProgress || 0}
                     description="reportes en tiempo real"
-                    variant="default"
+                    variant="info"
                     size="lg"
                     isLoading={isLoadingMetrics}
                 />
@@ -94,13 +101,12 @@ export const Resumen = () => {
                 <Card className="lg:col-span-3 md:col-span-2 col-span-1">
                     <CardHeader>
                         <CardTitle className="text-gray-700">Reportes Recientes</CardTitle>
-                        <CardDescription className="text-gray-600">Se han recibido 15 reportes hoy</CardDescription>
+                        <CardDescription className="text-gray-600">Se han recibido {reportsData?.length} reportes hoy</CardDescription>
                     </CardHeader>
                     <CardContent className="px-2">
-                        {
-                            reportsData ? <RecentReports reports={reportsData} /> : null
-                        }
                         
+                        <RecentReports reports={reportsData || []} isLoading={isLoadingReports} />
+
                     </CardContent>
                 </Card>
             </div>
