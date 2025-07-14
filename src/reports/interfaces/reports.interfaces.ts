@@ -6,6 +6,17 @@ export interface MetricsResponse {
     reportsPriorityHigh: number;
 }
 
+export enum OverViewMode {
+    last_7_days ="last_7_days", 
+    last_30_days ="last_30_days", 
+    last_3_months ="last_3_months", 
+    year_to_date ="year_to_date"
+}
+export interface OverviewData {
+    name: string;
+    total: number
+}
+
 export interface GetReportsRequest {
     limit:         number;
     page:          number;

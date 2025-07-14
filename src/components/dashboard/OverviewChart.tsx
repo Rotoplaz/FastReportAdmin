@@ -1,56 +1,10 @@
 import { Bar, BarChart, XAxis, YAxis } from "recharts";
 import { ChartConfig, ChartContainer } from "../ui/chart";
+import { OverviewData } from "@/reports/interfaces/reports.interfaces";
 
-const data = [
-  {
-    name: "Ene",
-    total: 35,
-  },
-  {
-    name: "Feb",
-    total: 38,
-  },
-  {
-    name: "Mar",
-    total: 42,
-  },
-  {
-    name: "Abr",
-    total: 45,
-  },
-  {
-    name: "May",
-    total: 48,
-  },
-  {
-    name: "Jun",
-    total: 43,
-  },
-  {
-    name: "Jul",
-    total: 40,
-  },
-  {
-    name: "Ago",
-    total: 39,
-  },
-  {
-    name: "Sep",
-    total: 44,
-  },
-  {
-    name: "Oct",
-    total: 46,
-  },
-  {
-    name: "Nov",
-    total: 41,
-  },
-  {
-    name: "Dic",
-    total: 39,
-  },
-];
+interface Props {
+  data: OverviewData[];
+}
 
 const chartConfig = {
   desktop: {
@@ -63,7 +17,7 @@ const chartConfig = {
   },
 } satisfies ChartConfig;
 
-export function OverviewChart() {
+export function OverviewChart({ data }:Props) {
   return (
     <ChartContainer config={chartConfig}>
       <BarChart data={data}>
