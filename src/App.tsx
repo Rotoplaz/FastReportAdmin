@@ -6,6 +6,7 @@ import {
 import { BrowserRouter, Route, Routes } from "react-router";
 import { DashboardLayout } from "./layouts/dashboard/DashboardLayout";
 import { Resumen } from "./views/dashboard/Resumen";
+import { Login } from './views/Login';
 
 const queryClient = new QueryClient()
 
@@ -16,6 +17,10 @@ export const App = () => {
       <div className="w-full h-screen">
         <BrowserRouter>
           <Routes>
+            
+            <Route path="/login" element={<Login/>} />
+
+
             <Route path="/" element={<DashboardLayout />}>
               <Route index element={<Resumen/>} />
             </Route>
