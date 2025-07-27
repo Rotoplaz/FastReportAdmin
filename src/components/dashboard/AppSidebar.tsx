@@ -18,10 +18,12 @@ import { TbLogout2 } from "react-icons/tb";
 import { cn } from "@/lib/utils";
 import { LuBlocks } from "react-icons/lu";
 import { useLocation } from "react-router";
+import { useAuthStore } from "@/store/auth/useAuthStore";
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 
   const {pathname} = useLocation();
+  const { logout } = useAuthStore();
 
   const menuItems = [
     { href: "/", icon: RxDashboard, label: "Resumen" },
@@ -84,7 +86,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       <SidebarFooter>
         <SidebarMenu>
           <SidebarMenuItem>
-            <SidebarMenuButton> 
+            <SidebarMenuButton onClick={logout} className="cursor-pointer"> 
               <TbLogout2 />
               <span>Salir</span>
             </SidebarMenuButton>

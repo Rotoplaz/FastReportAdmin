@@ -1,11 +1,17 @@
 import { AppSidebar } from '@/components/dashboard/AppSidebar'
 import { Separator } from '@/components/ui/separator'
 import { SidebarInset, SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar'
+import { useAuthStore } from '@/store/auth/useAuthStore'
 
 import React from 'react'
-import { Outlet } from 'react-router'
+import { Navigate, Outlet } from 'react-router'
 
 export const DashboardLayout = () => {
+    const isAuthenticated = useAuthStore((state) => state.isAuthenticated)
+
+    if (!isAuthenticated) {
+        return <Navigate to="/login" replace />
+    }
 
     return (
         <SidebarProvider

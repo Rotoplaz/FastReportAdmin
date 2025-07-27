@@ -101,8 +101,8 @@ export const Resumen = () => {
 
             </div>
 
-            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7 grid-cols-1 mt-5">
-                <Card className="lg:col-span-4 md:col-span-2 col-span-1">
+            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-10 grid-cols-1 mt-5">
+                <Card className="lg:col-span-6 md:col-span-2 col-span-1">
                     <CardHeader>
                         <CardTitle className="text-gray-700">Tendencia de Reportes</CardTitle>
                         <CardDescription className="text-gray-600">Análisis de los últimos 30 días</CardDescription>
@@ -133,7 +133,7 @@ export const Resumen = () => {
                         <OverviewChart data={filterOverViewData(reportsDataOverView || [], overViewMode)} />
                     </CardContent>
                 </Card>
-                <Card className="lg:col-span-3 md:col-span-2 col-span-1">
+                <Card className="lg:col-span-4 md:col-span-2 col-span-1">
                     <CardHeader>
                         <CardTitle className="text-gray-700">Reportes Recientes</CardTitle>
                         <CardDescription className="text-gray-600">Se han recibido {reportsData?.length} reportes hoy</CardDescription>

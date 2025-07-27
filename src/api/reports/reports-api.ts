@@ -6,10 +6,10 @@ export const reportsApi = axios.create({
 });
 
 reportsApi.interceptors.request.use((config) => {
-  const access = localStorage.getItem('access') || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjcyZmFmNjM5LWM3OGItNDA1MS1hNDExLTY5NDYxZmY3NDQxZCIsImlhdCI6MTc1MjQ2OTA2NCwiZXhwIjoxNzUyNDgzNDY0fQ.jjSNHl7V8d9QKBM2UZ4T65u36nWUrZp5LOev2BHguKQ';
+  const data = JSON.parse(localStorage.getItem('auth-storage') ||  '{}');
   let token: string='';
-  if (access) {
-    token = 'Bearer ' + access;
+  if (data.state) {
+    token = 'Bearer ' + data.state.jwt;
     config.headers = {
       ...config.headers,
       Authorization: token

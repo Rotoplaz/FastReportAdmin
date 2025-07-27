@@ -78,6 +78,5 @@ export const filterOverViewData = (
     total: counts[key] || 0,
   }));
 
-  console.log(sorted)
   return sorted; 
 }
