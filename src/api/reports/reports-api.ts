@@ -2,7 +2,7 @@
 import axios, { AxiosRequestHeaders } from 'axios';
 
 export const reportsApi = axios.create({
-  baseURL: 'http://localhost:3000/api',
+  baseURL: import.meta.env.VITE_BACKEND_URL,
 });
 
 reportsApi.interceptors.request.use((config) => {
