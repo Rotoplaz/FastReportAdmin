@@ -2,8 +2,8 @@ import { Report } from "@/reports/interfaces/reports.interfaces";
 import { RecentReport } from "./RecentReport";
 import { ScrollArea } from "../ui/scroll-area";
 import { RecentReportSkeletons } from "./RecentReportSkeletons";
-import { Info } from "lucide-react"; // Importa un ícono para el mensaje
-import { Card } from "../ui/card"; // Para el contenedor del mensaje
+import { Info } from "lucide-react";
+import { Card } from "../ui/card";
 
 interface Props {
   reports: Report[];
@@ -14,7 +14,7 @@ export const RecentReports = ({ reports, isLoading = false }: Props) => {
 
 
   return (
-    <ScrollArea className="max-h-[550px] overflow-auto">
+    <ScrollArea className="max-h-[500px] min-h-[500px] overflow-auto">
       {isLoading ? (
         <RecentReportSkeletons count={6} />
       ) : reports.length > 0 ? (

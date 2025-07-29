@@ -32,11 +32,11 @@ interface Props {
   onClick?: (report: Report) => void;
 }
 
-export const RecentReport= ({ 
-  report, 
+export const RecentReport = ({
+  report,
   className = '',
-  onClick 
-}:Props) => {
+  onClick
+}: Props) => {
   const statusText = {
     pending: 'Pendiente',
     in_progress: 'En Proceso',
@@ -57,34 +57,34 @@ export const RecentReport= ({
   };
 
   return (
-    <div 
-      className={`flex items-center p-3 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-lg transition-colors ${className}`}
+    <div
+      className={`grid grid-cols-6 items-center p-3 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-lg transition-colors ${className}`}
       onClick={handleClick}
       role="button"
       tabIndex={0}
     >
-      <div className="space-y-1 flex-1 min-w-0">
+      <div className="space-y-1 min-w-0 col-span-4">
         <p className="text-sm font-medium leading-none truncate dark:text-white">
-          {report.category?.name || 'Sin categoría'}
-        </p>
-        <p className="text-sm text-muted-foreground dark:text-gray-400 truncate">
           {report.title}
         </p>
+        <p className="text-sm text-muted-foreground dark:text-gray-400 truncate overflow-hidden whitespace-nowrap w-full">
+          {report.description}
+        </p>
       </div>
-      <div className="ml-auto flex flex-col items-end flex-shrink-0">
+      <div className="ml-auto col-span-2 flex flex-col items-end flex-shrink-0">
         <div className="flex items-center gap-1">
           {report.priority === 'high' && (
-              <Badge
-                className="h-5 min-w-5 rounded-full px-1 font-mono tabular-nums"
-                variant="destructive"
-              >
-                {priorityText[report.priority]}
-              </Badge>
+            <Badge
+              className="h-5 min-w-5 rounded-full px-1 font-mono tabular-nums"
+              variant="destructive"
+            >
+              {priorityText[report.priority]}
+            </Badge>
 
           )}
-          <span className={statusVariants({ 
-            status: report.status, 
-            priority: report.priority 
+          <span className={statusVariants({
+            status: report.status,
+            priority: report.priority
           })}>
             {statusText[report.status]}
           </span>

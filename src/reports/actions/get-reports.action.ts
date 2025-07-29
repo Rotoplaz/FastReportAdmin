@@ -6,6 +6,7 @@ interface Params {
     year?:number;
     month?: number;
     day?: number;
+    limit?: number;
 }
 
 export const getReports = async (params?: Params): Promise<Report[]> => {
