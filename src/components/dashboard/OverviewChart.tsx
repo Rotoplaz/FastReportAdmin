@@ -1,25 +1,25 @@
 import { Bar, BarChart, XAxis, YAxis } from "recharts";
-import { ChartConfig, ChartContainer } from "../ui/chart";
+import { ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from "../ui/chart";
 import { OverviewData } from "@/reports/interfaces/reports.interfaces";
 
 interface Props {
   data: OverviewData[];
 }
 
+
 const chartConfig = {
   desktop: {
     label: "Desktop",
-    color: "hsl(var(--chart-1))",
+    color: "#2563eb",
   },
   mobile: {
     label: "Mobile",
-    color: "hsl(var(--chart-2))",
+    color: "#60a5fa",
   },
-} satisfies ChartConfig;
-
-export function OverviewChart({ data }:Props) {
+} satisfies ChartConfig
+export function OverviewChart({ data }: Props) {
   return (
-    <ChartContainer config={chartConfig}>
+    <ChartContainer config={chartConfig} className="aspect-auto h-[420px] w-full">
       <BarChart data={data}>
         <XAxis
           dataKey="name"
@@ -27,6 +27,17 @@ export function OverviewChart({ data }:Props) {
           fontSize={12}
           tickLine={false}
           axisLine={false}
+        />
+        <ChartTooltip
+          content={
+            <ChartTooltipContent
+              className="w-[150px]"
+              nameKey="total"
+              labelFormatter={(value) => {
+                return value
+              }}
+            />
+          }
         />
         <YAxis
           stroke="#888888"
@@ -37,9 +48,9 @@ export function OverviewChart({ data }:Props) {
         />
         <Bar
           dataKey="total"
-          fill="currentColor"
           radius={[4, 4, 0, 0]}
           className="fill-primary"
+          fill="var(--color-desktop)"
         />
       </BarChart>
     </ChartContainer>

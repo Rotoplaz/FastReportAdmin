@@ -1,4 +1,5 @@
 import { AppSidebar } from '@/components/dashboard/AppSidebar'
+import { NotifyReportProvider } from '@/components/providers/NotifyReportProvider'
 import { Separator } from '@/components/ui/separator'
 import { SidebarInset, SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar'
 import { useAuthStore } from '@/store/auth/useAuthStore'
@@ -26,9 +27,12 @@ export const DashboardLayout = () => {
                     <Separator orientation="vertical" className="mr-2 h-4" />
                     <h1 className="font-semibold">Admin</h1>
                 </header>
-                <div className="p-2">
-                    <Outlet />
-                </div>
+                 <NotifyReportProvider>
+                    <div className="py-2 px-6">
+                        <Outlet />
+                    </div>
+                 </NotifyReportProvider>
+                    
             </SidebarInset>
         </SidebarProvider>
     )
