@@ -12,13 +12,13 @@ import {
 } from "@/components/ui/sidebar";
 import { GalleryVerticalEnd } from "lucide-react";
 import { IoFileTrayFullOutline } from "react-icons/io5";
-import { MdOutlineCategory } from "react-icons/md";
 import { RxDashboard } from "react-icons/rx";
 import { TbLogout2 } from "react-icons/tb";
 import { cn } from "@/lib/utils";
-import { LuBlocks } from "react-icons/lu";
 import { useLocation } from "react-router";
 import { useAuthStore } from "@/store/auth/useAuthStore";
+import { FaPerson } from "react-icons/fa6";
+import { MdOutlineCategory } from "react-icons/md";
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 
@@ -27,9 +27,9 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 
   const menuItems = [
     { href: "/", icon: RxDashboard, label: "Resumen" },
-    { href: "/o", icon: IoFileTrayFullOutline, label: "Órdenes" },
-    { href: "/a", icon: LuBlocks, label: "Productos" },
-    { href: "/i", icon: MdOutlineCategory, label: "Categorías" },
+    { href: "/reportes", icon: IoFileTrayFullOutline, label: "Reportes" },
+    { href: "/trabajadores", icon: FaPerson , label: "Trabajadores" },
+    { href: "/departamentos", icon: MdOutlineCategory , label: "Departamentos" }
   ];
 
     

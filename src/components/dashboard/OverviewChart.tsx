@@ -1,4 +1,4 @@
-import { Bar, BarChart, XAxis, YAxis } from "recharts";
+import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts";
 import { ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from "../ui/chart";
 import { OverviewData } from "@/reports/interfaces/reports.interfaces";
 
@@ -28,6 +28,7 @@ export function OverviewChart({ data }: Props) {
           tickLine={false}
           axisLine={false}
         />
+        <CartesianGrid vertical={false} />
         <ChartTooltip
           content={
             <ChartTooltipContent
