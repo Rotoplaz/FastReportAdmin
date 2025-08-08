@@ -1,0 +1,155 @@
+import { AspectRatio } from "@/components/ui/aspect-ratio";
+import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Report } from "@/reports/interfaces/reports.interfaces";
+
+import { ColumnDef } from "@tanstack/react-table"
+import { ArrowUpDown } from "lucide-react";
+
+// export interface Report {
+//     id:          string;
+//     categoryId:  string;
+//     studentId:   string;
+//     title:       string;
+//     description: string;
+//     priority:    Priority;
+//     status:      Status;
+//     location:    string;
+//     createdAt:   Date;
+//     updatedAt:   Date;
+//     student:     Student;
+//     category:    Category;
+//     photos:      Photo[];
+// }
+
+
+export const columns: ColumnDef<Report>[] = [
+    {
+        id: "select",
+        header: ({ table }) => (
+            <Checkbox
+                checked={
+                    table.getIsAllPageRowsSelected() ||
+                    (table.getIsSomePageRowsSelected() && "indeterminate")
+                }
+                onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+                aria-label="Select all"
+            />
+        ),
+        cell: ({ row }) => (
+            <Checkbox
+                checked={row.getIsSelected()}
+                onCheckedChange={(value) => row.toggleSelected(!!value)}
+                aria-label="Select row"
+            />
+        ),
+        enableSorting: false,
+        enableHiding: false,
+    },
+    {
+        accessorKey: "title",
+        header: "Titulo",
+    },
+    {
+        accessorKey: "description",
+        header: "Descripción",
+    },
+    {
+        accessorKey: "status",
+        header: "Estatus",
+    },
+    {
+        accessorKey: "priority",
+        header: ({ column }) => {
+            return (
+                <Button
+                    variant="ghost"
+                    onClick={() => column.toggleSorting()}
+                >
+                    Prioridad
+                    <ArrowUpDown className="ml-2 h-4 w-4" />
+                </Button>
+            )
+        },
+        sortingFn: (rowA, rowB, columnId) => {
+            const order: Record<string, number> = {
+                "high": 3,
+                "medium": 2,
+                "low": 1,
+            };
+
+            const a = rowA.getValue(columnId) as string;
+            const b = rowB.getValue(columnId) as string;
+
+            return order[a] - order[b];
+        },
+
+        enableSorting: true,
+        sortDescFirst: true,
+    },
+    {
+        accessorKey: "location",
+        header: "Ubicación",
+    },
+
+    {
+        accessorKey: "createdAt",
+        header: ({ column }) => {
+            return (
+                <Button
+                    variant="ghost"
+                    onClick={() => column.toggleSorting()}
+                >
+                    Fecha de creación
+                    <ArrowUpDown className="ml-2 h-4 w-4" />
+                </Button>
+            );
+        },
+        cell: ({ getValue }) => {
+            const date = new Date(getValue() as string);
+            const day = date.getDate().toString().padStart(2, '0');
+            const month = (date.getMonth() + 1).toString().padStart(2, '0');
+            const year = date.getFullYear();
+
+            return `${day}/${month}/${year}`;
+        },
+        sortingFn: (rowA, rowB, columnId) => {
+            const dateA = new Date(rowA.getValue(columnId) as string).getTime();
+            const dateB = new Date(rowB.getValue(columnId) as string).getTime();
+
+            return dateA - dateB;
+        },
+        enableSorting: true,
+        sortDescFirst: true,
+    },
+    {
+        id: "images",
+        accessorKey: "images",
+        header: "Imagen",
+        cell: ({ getValue }) => {
+            try {
+                const arrayPhotos: Array<{ url: string, id: string }> = getValue() as Array<{ url: string, id: string }>;
+                
+                let photo = "";
+                if (arrayPhotos[0].url) {
+                    photo = arrayPhotos[0].url
+                }
+                return (
+    
+                    <AspectRatio ratio={4 / 5} className="bg-muted rounded-lg">
+                        <img
+                            src={photo}
+                            alt="Photo by Drew Beamer"
+                            className="h-full w-full rounded-lg object-cover dark:brightness-[0.2] dark:grayscale"
+                        />
+                    </AspectRatio>
+                )
+                
+            } catch (error) {
+                console.log(error)
+            }
+        },
+
+        enableSorting: false,
+    },
+]

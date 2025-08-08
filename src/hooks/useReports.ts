@@ -26,6 +26,7 @@ export const useReports = () => {
     OverViewMode.year_to_date
   );
   const [recentReports, setRecentReports] = useState<Report[]>([]);
+  const [annualReports, setAnnualReports] = useState<Report[]>([]);
   const [metrics, setMetrics] = useState<Metrics>({
     totalReports: 0,
     reportsInProgress: 0,
@@ -42,16 +43,30 @@ export const useReports = () => {
   });
 
   useEffect(() => {
-    socket.emit("getInitialReports");
+    socket.emit("getInitialRecentReports");
 
     const handleInitialReports = (data: GetReportsRequest) => {
       setRecentReports(data.data);
     };
 
-    socket.on("initialReports", handleInitialReports);
+    socket.on("initialRecentReports", handleInitialReports);
 
     return () => {
-      socket.off("initialReports", handleInitialReports);
+      socket.off("getInitialRecentReports", handleInitialReports);
+    };
+  }, []);
+
+  useEffect(() => {
+    socket.emit("getAnnualReports");
+
+    const handleAnnualReports = (data: GetReportsRequest) => {
+      setAnnualReports(data.data);
+    };
+
+    socket.on("annualReports", handleAnnualReports);
+
+    return () => {
+      socket.off("getAnnualReports", handleAnnualReports);
     };
   }, []);
 
@@ -81,6 +96,8 @@ export const useReports = () => {
   useEffect(() => {
     const handleNewReport = (newReport: Report) => {
       setRecentReports((prev) => [newReport, ...prev]);
+      setAnnualReports((prev) => [newReport, ...prev]);
+      
     };
 
     socket.on("newReport", handleNewReport);
@@ -94,6 +111,7 @@ export const useReports = () => {
     recentReports,
     metrics,
     reportsDataOverView,
-    setOverViewMode
+    setOverViewMode,
+    annualReports
   };
 };
