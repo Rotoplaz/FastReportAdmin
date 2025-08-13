@@ -12,9 +12,10 @@ import { filterOverViewData } from "@/reports/utils/filter-overview-data";
 
 import { OverViewMode } from "@/reports/interfaces/reports.interfaces";
 
-import { ChartPieLabelList } from "@/components/dashboard/PieChart";
+import { PieChartCard } from "@/components/dashboard/PieChart";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useReports } from "@/hooks/useReports";
+import { transformReportData } from "@/lib/utils";
 
 
 export const Resumen = () => {
@@ -95,7 +96,17 @@ export const Resumen = () => {
                             </CardContent>
                         </Card>
                         <div className="lg:col-span-4 md:col-span-2 col-span-1">
-                            <ChartPieLabelList />
+                            <PieChartCard
+
+                                title="Reportes por Prioridad"
+                                description="Último año"
+                                data={transformReportData({ ...metrics })}
+                                footerInfo={{
+                                    trendText: "↑ 8.3% este mes",
+                                    extraText: "Comparado con el mes anterior",
+                                }}
+
+                            />
                         </div>
 
                     </div>

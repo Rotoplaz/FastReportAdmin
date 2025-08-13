@@ -38,7 +38,7 @@ export interface Report {
     updatedAt:   Date;
     student:     Student;
     category:    Category;
-    photos:      Photo[];
+    images:      Photo[];
 }
 
 export interface Category {
