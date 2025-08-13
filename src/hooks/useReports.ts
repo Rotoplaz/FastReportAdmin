@@ -43,6 +43,7 @@ export const useReports = () => {
   });
 
   useEffect(() => {
+    
     socket.emit("getInitialRecentReports");
 
     const handleInitialReports = (data: GetReportsRequest) => {
