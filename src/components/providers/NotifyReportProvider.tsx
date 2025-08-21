@@ -1,11 +1,11 @@
 import { ReactNode, useEffect } from "react"
-import { socket } from "@/socket-io/socket"
 import { Report } from "@/reports/interfaces/reports.interfaces"
 import { toast } from "sonner"
+import { connectSocket } from "@/socket-io/socket";
 
 export function NotifyReportProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
-    socket.connect()
+    const socket = connectSocket("reports");
 
     const handleNewReport = (newReport: Report) => {
       toast.info(newReport.title, {

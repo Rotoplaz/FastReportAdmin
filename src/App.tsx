@@ -11,7 +11,7 @@ import { Toaster } from 'sonner';
 import { ThemeProvider } from './components/ui/theme-provider';
 import { Reports } from './views/dashboard/Reports';
 import { Workers } from './views/dashboard/Workers';
-import { Departments } from './views/dashboard/departments';
+import { Departments } from './views/dashboard/Departments';
 
 const queryClient = new QueryClient()
 
@@ -32,7 +32,7 @@ export const App = () => {
                   <Route index element={<Resumen/>} />
                   <Route path="reportes" element={<Reports/>} />
                   <Route path="trabajadores" element={<Workers/>} />
-                  <Route path="departamentos" element={<Departments/>} />
+                  <Route path="departamentos" element={<Departments />} />
                 </Route>
 
 

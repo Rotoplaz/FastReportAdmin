@@ -20,7 +20,7 @@ import { transformReportData } from "@/lib/utils";
 
 export const Resumen = () => {
 
-    const { metrics, overViewMode, recentReports, reportsDataOverView, setOverViewMode } = useReports();
+    const { metrics, overViewMode, recentReports, setOverViewMode, annualReports } = useReports();
 
     return (
         <>
@@ -92,7 +92,7 @@ export const Resumen = () => {
                                 </Select>
                             </CardHeader>
                             <CardContent className="pl-2">
-                                <OverviewChart data={filterOverViewData(reportsDataOverView || [], overViewMode)} />
+                                <OverviewChart data={filterOverViewData(annualReports || [], overViewMode)} />
                             </CardContent>
                         </Card>
                         <div className="lg:col-span-4 md:col-span-2 col-span-1">

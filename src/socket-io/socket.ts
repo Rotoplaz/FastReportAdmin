@@ -1,5 +1,13 @@
 import { io } from 'socket.io-client';
 
-const URL = process.env.NODE_ENV === 'production' ? undefined : 'http://localhost:3000';
+const BASE_URL =
+  process.env.NODE_ENV === 'production'
+    ? 'https://tu-backend.com'
+    : 'http://localhost:3000';
 
-export const socket = io(`${URL}/reports`); 
+export function connectSocket(namespace: string) {
+  return io(`${BASE_URL}/${namespace}`, {
+    transports: ['websocket'],
+    autoConnect: true,
+  });
+}

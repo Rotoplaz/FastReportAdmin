@@ -1,11 +1,9 @@
-import { getReports } from "@/reports/actions/get-reports.action";
 import {
   GetReportsRequest,
   OverViewMode,
   Report,
 } from "@/reports/interfaces/reports.interfaces";
-import { socket } from "@/socket-io/socket";
-import { useQuery } from "@tanstack/react-query";
+import { connectSocket } from "@/socket-io/socket";
 import { useEffect, useState } from "react";
 
 interface Metrics {
@@ -19,9 +17,6 @@ interface Metrics {
 }
 
 export const useReports = () => {
-  const today = new Date();
-  const year = today.getFullYear();
-
   const [overViewMode, setOverViewMode] = useState<OverViewMode>(
     OverViewMode.year_to_date
   );
@@ -37,82 +32,45 @@ export const useReports = () => {
     mediumPriorityReports: 0,
   });
 
-  const { data: reportsDataOverView } = useQuery({
-    queryKey: ["get", "reports", "overview"],
-    queryFn: () => getReports({ year, limit: 1_000_000 }),
-  });
-
   useEffect(() => {
-    
+    const socket = connectSocket("reports");
     socket.emit("getInitialRecentReports");
-
-    const handleInitialReports = (data: GetReportsRequest) => {
-      setRecentReports(data.data);
-    };
-
-    socket.on("initialRecentReports", handleInitialReports);
-
-    return () => {
-      socket.off("getInitialRecentReports", handleInitialReports);
-    };
-  }, []);
-
-  useEffect(() => {
     socket.emit("getAnnualReports");
-
-    const handleAnnualReports = (data: GetReportsRequest) => {
-      setAnnualReports(data.data);
-    };
-
-    socket.on("annualReports", handleAnnualReports);
-
-    return () => {
-      socket.off("getAnnualReports", handleAnnualReports);
-    };
-  }, []);
-
-  useEffect(() => {
     socket.emit("getInitiaMetrics");
 
-    const handleInitialMetrics = (data: Metrics) => {
-      setMetrics(data);
-    };
-
-    socket.on("initialMetrics", handleInitialMetrics);
-
-    return () => {
-      socket.off("initialMetrics", handleInitialMetrics);
-    };
-  }, []);
-
-  useEffect(() => {
+    const handleInitialReports = (data: GetReportsRequest) =>
+      setRecentReports(data.data);
+    const handleAnnualReports = (data: GetReportsRequest) =>
+      setAnnualReports(data.data);
+    const handleInitialMetrics = (data: Metrics) => setMetrics(data);
     const handleMetrics = (incomingMetrics: Metrics) =>
       setMetrics(incomingMetrics);
-    socket.on("metrics", handleMetrics);
-    return () => {
-      socket.off("metrics", handleMetrics);
-    };
-  }, []);
-
-  useEffect(() => {
     const handleNewReport = (newReport: Report) => {
       setRecentReports((prev) => [newReport, ...prev]);
       setAnnualReports((prev) => [newReport, ...prev]);
-      
     };
 
+    socket.on("initialRecentReports", handleInitialReports);
+    socket.on("annualReports", handleAnnualReports);
+    socket.on("initialMetrics", handleInitialMetrics);
+    socket.on("metrics", handleMetrics);
     socket.on("newReport", handleNewReport);
+
     return () => {
+      socket.off("initialRecentReports", handleInitialReports);
+      socket.off("annualReports", handleAnnualReports);
+      socket.off("initialMetrics", handleInitialMetrics);
+      socket.off("metrics", handleMetrics);
       socket.off("newReport", handleNewReport);
+      socket.disconnect();
     };
   }, []);
 
   return {
     overViewMode,
-    recentReports,
-    metrics,
-    reportsDataOverView,
     setOverViewMode,
-    annualReports
+    recentReports,
+    annualReports,
+    metrics,
   };
 };
