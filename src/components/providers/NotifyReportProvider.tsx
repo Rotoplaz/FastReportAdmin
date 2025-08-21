@@ -2,10 +2,12 @@ import { ReactNode, useEffect } from "react"
 import { Report } from "@/reports/interfaces/reports.interfaces"
 import { toast } from "sonner"
 import { connectSocket } from "@/socket-io/socket";
+import { useAuthStore } from "@/store/auth/useAuthStore";
 
 export function NotifyReportProvider({ children }: { children: ReactNode }) {
+  const jwt = useAuthStore(state=>state.jwt);
   useEffect(() => {
-    const socket = connectSocket("reports");
+    const socket = connectSocket("reports", jwt);
 
     const handleNewReport = (newReport: Report) => {
       toast.info(newReport.title, {
@@ -19,7 +21,7 @@ export function NotifyReportProvider({ children }: { children: ReactNode }) {
       socket.off("newReport", handleNewReport)
       socket.disconnect()
     }
-  }, [])
+  }, [jwt])
 
   return <>{children}</>
 }

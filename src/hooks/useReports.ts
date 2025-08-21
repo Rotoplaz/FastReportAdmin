@@ -4,6 +4,7 @@ import {
   Report,
 } from "@/reports/interfaces/reports.interfaces";
 import { connectSocket } from "@/socket-io/socket";
+import { useAuthStore } from "@/store/auth/useAuthStore";
 import { useEffect, useState } from "react";
 
 interface Metrics {
@@ -17,6 +18,7 @@ interface Metrics {
 }
 
 export const useReports = () => {
+  const jwt = useAuthStore((state) => state.jwt);
   const [overViewMode, setOverViewMode] = useState<OverViewMode>(
     OverViewMode.year_to_date
   );
@@ -33,10 +35,8 @@ export const useReports = () => {
   });
 
   useEffect(() => {
-    const socket = connectSocket("reports");
-    socket.emit("getInitialRecentReports");
-    socket.emit("getAnnualReports");
-    socket.emit("getInitiaMetrics");
+    if (!jwt) return;
+    const socket = connectSocket("reports", jwt);
 
     const handleInitialReports = (data: GetReportsRequest) =>
       setRecentReports(data.data);
@@ -56,6 +56,12 @@ export const useReports = () => {
     socket.on("metrics", handleMetrics);
     socket.on("newReport", handleNewReport);
 
+    socket.on("authenticated", () => {
+      socket.emit("getInitialRecentReports");
+      socket.emit("getAnnualReports");
+      socket.emit("getInitialMetrics");
+    });
+
     return () => {
       socket.off("initialRecentReports", handleInitialReports);
       socket.off("annualReports", handleAnnualReports);
@@ -64,7 +70,7 @@ export const useReports = () => {
       socket.off("newReport", handleNewReport);
       socket.disconnect();
     };
-  }, []);
+  }, [jwt]);
 
   return {
     overViewMode,
