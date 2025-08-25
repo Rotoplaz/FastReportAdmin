@@ -21,7 +21,7 @@ import { transformReportData } from "@/lib/utils";
 export const Resumen = () => {
 
     const { metrics, overViewMode, recentReports, setOverViewMode, annualReports } = useReports();
-
+    
     return (
         <>
             <div className="grid gap-4 md:grid-cols-4 sm:grid-cols-2">

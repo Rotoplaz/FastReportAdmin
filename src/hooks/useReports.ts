@@ -42,7 +42,6 @@ export const useReports = () => {
       setRecentReports(data.data);
     const handleAnnualReports = (data: GetReportsRequest) =>
       setAnnualReports(data.data);
-    const handleInitialMetrics = (data: Metrics) => setMetrics(data);
     const handleMetrics = (incomingMetrics: Metrics) =>
       setMetrics(incomingMetrics);
     const handleNewReport = (newReport: Report) => {
@@ -52,7 +51,7 @@ export const useReports = () => {
 
     socket.on("initialRecentReports", handleInitialReports);
     socket.on("annualReports", handleAnnualReports);
-    socket.on("initialMetrics", handleInitialMetrics);
+    socket.on("initialMetrics", handleMetrics);
     socket.on("metrics", handleMetrics);
     socket.on("newReport", handleNewReport);
 
@@ -65,7 +64,7 @@ export const useReports = () => {
     return () => {
       socket.off("initialRecentReports", handleInitialReports);
       socket.off("annualReports", handleAnnualReports);
-      socket.off("initialMetrics", handleInitialMetrics);
+      socket.off("initialMetrics", handleMetrics);
       socket.off("metrics", handleMetrics);
       socket.off("newReport", handleNewReport);
       socket.disconnect();

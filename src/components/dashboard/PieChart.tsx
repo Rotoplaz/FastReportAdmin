@@ -36,13 +36,16 @@ export function PieChartCard({
   footerInfo,
 }: PieChartCardProps) {
   
-  const chartConfig = data.reduce((acc, item) => {
+  const filteredData = data.filter(item => item.value > 0);
+  
+  const chartConfig = filteredData.reduce((acc, item) => {
     acc[item.label] = {
       label: item.label,
       color: item.fill,
     };
     return acc;
   }, {} as ChartConfig);
+  
   return (
     <Card className="flex flex-col">
       <CardHeader className="items-center pb-0">
@@ -56,7 +59,7 @@ export function PieChartCard({
         >
           <PieChart>
             <ChartTooltip content={<ChartTooltipContent nameKey="label" hideLabel />} />
-            <Pie data={data} dataKey="value">
+            <Pie data={filteredData} dataKey="value">
               <LabelList dataKey="label" fontSize={19} />
             </Pie>
           </PieChart>

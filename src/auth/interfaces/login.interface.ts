@@ -14,4 +14,14 @@ export interface User {
     role:      string;
     createdAt: Date;
     updatedAt: Date;
+    Category:  Category;
+}
+
+export interface Category {
+    id:           string;
+    name:         string;
+    description:  string;
+    supervisorId: string;
+    createdAt:    Date;
+    updatedAt:    Date;
 }
