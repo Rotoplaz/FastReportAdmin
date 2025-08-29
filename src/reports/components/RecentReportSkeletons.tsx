@@ -1,4 +1,4 @@
-import { Skeleton } from '../ui/skeleton';
+import { Skeleton } from '../../components/ui/skeleton';
 
 
 export const RecentReportSkeletons = ({ count = 3 }: { count?: number }) => {

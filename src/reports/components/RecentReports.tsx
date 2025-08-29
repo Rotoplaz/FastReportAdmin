@@ -1,9 +1,9 @@
 import { Report } from "@/reports/interfaces/reports.interfaces";
 import { RecentReport } from "./RecentReport";
-import { ScrollArea } from "../ui/scroll-area";
+import { ScrollArea } from "../../components/ui/scroll-area";
 import { RecentReportSkeletons } from "./RecentReportSkeletons";
 import { Info } from "lucide-react";
-import { Card } from "../ui/card";
+import { Card } from "../../components/ui/card";
 
 interface Props {
   reports: Report[];

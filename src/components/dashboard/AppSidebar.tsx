@@ -24,7 +24,6 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 
   const {pathname} = useLocation();
   const { logout } = useAuthStore();
-
   const menuItems = [
     { href: "/", icon: RxDashboard, label: "Resumen" },
     { href: "/reportes", icon: IoFileTrayFullOutline, label: "Reportes" },
