@@ -3,7 +3,7 @@ import { FaCheckCircle } from "react-icons/fa";
 import { BiTime } from "react-icons/bi";
 
 import { OverviewChart } from "@/components/dashboard/OverviewChart";
-import { RecentReports } from "@/components/reports/RecentReports";
+import { RecentReports } from "@/reports/components/RecentReports";
 import { MetricCard } from "@/components/dashboard/MetricCard";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";

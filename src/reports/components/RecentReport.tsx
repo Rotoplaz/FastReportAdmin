@@ -3,7 +3,7 @@ import { format } from 'date-fns';
 import { es } from 'date-fns/locale';
 import { cva } from 'class-variance-authority';
 import { Report } from '@/reports/interfaces/reports.interfaces';
-import { Badge } from '../ui/badge';
+import { Badge } from '../../components/ui/badge';
 
 
 const statusVariants = cva("font-medium", {

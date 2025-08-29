@@ -1,7 +1,7 @@
 import { ReactNode, useEffect } from "react"
 import { Report } from "@/reports/interfaces/reports.interfaces"
 import { toast } from "sonner"
-import { connectSocket } from "@/socket-io/socket";
+import { connectSocket } from "@/lib/socket";
 import { useAuthStore } from "@/store/auth/useAuthStore";
 
 export function NotifyReportProvider({ children }: { children: ReactNode }) {

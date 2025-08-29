@@ -29,7 +29,7 @@ export const DashboardLayout = () => {
                         Departamento:{" "}
                         {user?.role === "admin"
                             ? "General"
-                            : user?.Category?.name ?? "Sin asignar"}
+                            : user?.department.name ?? "Sin asignar"}
                     </h1>
                 </header>
                 <NotifyReportProvider>

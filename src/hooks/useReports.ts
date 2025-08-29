@@ -3,7 +3,7 @@ import {
   OverViewMode,
   Report,
 } from "@/reports/interfaces/reports.interfaces";
-import { connectSocket } from "@/socket-io/socket";
+import { connectSocket } from "@/lib/socket";
 import { useAuthStore } from "@/store/auth/useAuthStore";
 import { useEffect, useState } from "react";
 
@@ -38,10 +38,10 @@ export const useReports = () => {
     if (!jwt) return;
     const socket = connectSocket("reports", jwt);
 
-    const handleInitialReports = (data: GetReportsRequest) =>
-      setRecentReports(data.data);
-    const handleAnnualReports = (data: GetReportsRequest) =>
-      setAnnualReports(data.data);
+    const handleInitialReports = (response: GetReportsRequest) =>
+      setRecentReports(response.data);
+    const handleAnnualReports = (response: GetReportsRequest) =>
+      setAnnualReports(response.data);
     const handleMetrics = (incomingMetrics: Metrics) =>
       setMetrics(incomingMetrics);
     const handleNewReport = (newReport: Report) => {
@@ -51,7 +51,6 @@ export const useReports = () => {
 
     socket.on("initialRecentReports", handleInitialReports);
     socket.on("annualReports", handleAnnualReports);
-    socket.on("initialMetrics", handleMetrics);
     socket.on("metrics", handleMetrics);
     socket.on("newReport", handleNewReport);
 
