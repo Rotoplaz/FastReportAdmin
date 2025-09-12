@@ -8,7 +8,10 @@ export const Departments = () => {
 
   return (
     <div>
-      <DataTable columns={columns} data={data || []} />
+      <DataTable 
+        columns={columns} 
+        data={data || []}
+        />
     </div>
   )
 }
