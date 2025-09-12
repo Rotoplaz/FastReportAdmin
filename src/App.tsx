@@ -3,7 +3,7 @@ import {
   QueryClientProvider,
 } from '@tanstack/react-query'
 
-import { BrowserRouter, Route, Routes } from "react-router";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router";
 import { DashboardLayout } from "./layouts/dashboard/DashboardLayout";
 import { Resumen } from "./views/dashboard/Resumen";
 import { Login } from './views/Login';
@@ -12,10 +12,12 @@ import { ThemeProvider } from './components/ui/theme-provider';
 import { Reports } from './views/dashboard/Reports';
 import { Workers } from './views/dashboard/Workers';
 import { Departments } from './views/dashboard/Departments';
+import { useAuthStore } from './store/auth/useAuthStore';
 
 const queryClient = new QueryClient()
 
 export const App = () => {
+  const { user } = useAuthStore();
 
   return (
     <QueryClientProvider client={queryClient}>
@@ -28,11 +30,18 @@ export const App = () => {
                 
                 <Route path="/login" element={<Login/>} />
 
-                <Route path="/" element={<DashboardLayout />}>
+                <Route path="/" element={<DashboardLayout />} >
                   <Route index element={<Resumen/>} />
                   <Route path="reportes" element={<Reports/>} />
                   <Route path="trabajadores" element={<Workers/>} />
-                  <Route path="departamentos" element={<Departments />} />
+
+                  {user?.role === "admin" && (
+                    <Route path="departamentos" element={<Departments />} />
+                  )}
+
+                  <Route path="*" element={<Navigate to="/" />} />
+                  
+
                 </Route>
 
 

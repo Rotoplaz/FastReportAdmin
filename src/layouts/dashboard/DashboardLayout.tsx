@@ -33,7 +33,7 @@ export const DashboardLayout = () => {
                     </h1>
                 </header>
                 <NotifyReportProvider>
-                    <div className="py-2 px-6">
+                    <div className="py-2 px-6 over">
                         <Outlet />
                     </div>
                 </NotifyReportProvider>

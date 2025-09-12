@@ -21,7 +21,7 @@ import { transformReportData } from "@/lib/utils";
 export const Resumen = () => {
 
     const { metrics, overViewMode, recentReports, setOverViewMode, annualReports } = useReports();
-    
+
     return (
         <>
             <div className="grid gap-4 md:grid-cols-4 sm:grid-cols-2">
@@ -33,8 +33,9 @@ export const Resumen = () => {
                     description="+20% respecto al mes pasado"
                     variant="default"
                     size="lg"
-                    className="max-h-min"
+                    className="max-h-min w-full mr-4"
                 />
+
                 <MetricCard
                     icon={<MdReport />}
                     title="Reportes En Progreso"
