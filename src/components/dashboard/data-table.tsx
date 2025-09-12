@@ -26,17 +26,19 @@ import {
   TableRow,
 
 } from "@/components/ui/table"
-import { useState } from "react"
+import { ReactNode, useState } from "react"
 import { ChevronDown } from "lucide-react"
 
 interface DataTableProps<TData, TValue> {
-  columns: ColumnDef<TData, TValue>[]
-  data: TData[]
+  columns: ColumnDef<TData, TValue>[];
+  data: TData[];
+  actions?: ReactNode;
 }
 
 export function DataTable<TData, TValue>({
   columns,
   data,
+  actions
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState<SortingState>([
     { id: "createdAt", desc: true }
@@ -59,11 +61,10 @@ export function DataTable<TData, TValue>({
 
   return (
     <div className="max-w-full">
-      <div className="flex items-center py-4">
-
+      <div className="flex items-center py-4 justify-between">
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="outline" className="ml-auto">
+            <Button variant="outline">
               Columnas <ChevronDown />
             </Button>
           </DropdownMenuTrigger>
@@ -89,6 +90,7 @@ export function DataTable<TData, TValue>({
               })}
           </DropdownMenuContent>
         </DropdownMenu>
+        {actions}
       </div>
       <div className="overflow-hidden rounded-md border">
         <Table>
