@@ -56,7 +56,7 @@ export const columns: ColumnDef<Report>[] = [
         cell: ({ getValue }) => {
             const text = getValue() as string;
             return (
-                <div className="max-w-[400px] truncate" title={text}>
+                <div className="2xl:max-w-[420px] md:max-w-[300px] truncate" title={text}>
                     {text}
                 </div>
             );

@@ -7,11 +7,11 @@ export const Reports = () => {
   const { annualReports } = useReports();
 
   return (
-    <div>
+    <>
 
       <DataTable columns={columns} data={annualReports} />
 
 
-    </div>
+    </>
   )
 }

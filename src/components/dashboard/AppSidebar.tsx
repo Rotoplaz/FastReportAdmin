@@ -22,16 +22,18 @@ import { MdOutlineCategory } from "react-icons/md";
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 
-  const {pathname} = useLocation();
-  const { logout } = useAuthStore();
+  const { pathname } = useLocation();
+  const { logout, user } = useAuthStore();
   const menuItems = [
     { href: "/", icon: RxDashboard, label: "Resumen" },
     { href: "/reportes", icon: IoFileTrayFullOutline, label: "Reportes" },
-    { href: "/trabajadores", icon: FaPerson , label: "Trabajadores" },
-    { href: "/departamentos", icon: MdOutlineCategory , label: "Departamentos" }
+    { href: "/trabajadores", icon: FaPerson, label: "Trabajadores" },
+  ];
+  const adminRoutes = [
+    { href: "/departamentos", icon: MdOutlineCategory, label: "Departamentos" }
   ];
 
-    
+
 
   return (
     <Sidebar variant="inset" {...props} collapsible="icon">
@@ -58,13 +60,12 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <SidebarGroup>
           <SidebarGroupContent>
             <SidebarMenu className="gap-2">
-              {menuItems.map((item) => (
-                <SidebarMenuItem key={item.href}>
+              {menuItems.map((item) => (<SidebarMenuItem key={item.href}>
                   <SidebarMenuButton
                     asChild
                     tooltip={item.label}
-                    className={  cn(
-                      "transition-colors duration-200", 
+                    className={cn(
+                      "transition-colors duration-200",
                       {
                         "bg-blue-500 text-white hover:bg-blue-500 hover:text-white": pathname === item.href,
                       }
@@ -75,8 +76,29 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                       {item.label}
                     </a>
                   </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
+                </SidebarMenuItem>)
+              )}
+              {
+                user?.role === "admin" && (adminRoutes.map(item => (
+                  <SidebarMenuItem key={item.href}>
+                    <SidebarMenuButton
+                      asChild
+                      tooltip={item.label}
+                      className={cn(
+                        "transition-colors duration-200",
+                        {
+                          "bg-blue-500 text-white hover:bg-blue-500 hover:text-white": pathname === item.href,
+                        }
+                      )}
+                    >
+                      <a href={item.href}>
+                        <item.icon />
+                        {item.label}
+                      </a>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                )))
+              }
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
@@ -85,7 +107,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       <SidebarFooter>
         <SidebarMenu>
           <SidebarMenuItem>
-            <SidebarMenuButton onClick={logout} className="cursor-pointer"> 
+            <SidebarMenuButton onClick={logout} className="cursor-pointer">
               <TbLogout2 />
               <span>Salir</span>
             </SidebarMenuButton>
