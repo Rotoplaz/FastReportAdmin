@@ -1,6 +1,6 @@
 import { connectSocket } from "@/lib/socket";
 import { useAuthStore } from "@/store/auth/useAuthStore";
-import { Worker, WorkersResponse } from "@/workers/interfaces/worker.response";
+import {  Worker, WorkersResponse } from "@/workers/interfaces/worker.response";
 import { useEffect, useState } from 'react';
 
 export const useWorkers = () => {
@@ -10,16 +10,24 @@ export const useWorkers = () => {
 
   useEffect(() => {
     const socket = connectSocket("workers", jwt);
-
+    
     socket.on("authenticated", () => {
       socket.emit("getWorkers");
+    });
+
+    socket.on("newWorker", (newWorker: Worker) => {
+      setWorkers((oldState)=>[newWorker, ...oldState])
     });
 
     socket.on("workers", (response: WorkersResponse) => {
       setWorkers(response.data)
     });
     
-    return () => {};
+    return () => {
+      socket.off("workers")
+      socket.off("newWorker")
+      socket.off("authenticated")
+    };
   }, [jwt]);
 
   return {

@@ -11,14 +11,16 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { Command, CommandGroup, CommandItem, CommandList } from "@/components/ui/command";
 import { Check } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { createNewWorker } from "../use-cases/create-worker.use-case";
+import { useState } from "react";
 
 const formSchema = z.object({
-    firstName: z.string({ message: "El nombre es requerido" }),
-    lastName: z.string({ message: "Los apellidos son requeridos" }),
-    email: z.string({ message: "El email es requerido" }).email(),
-    code: z.string({ message: "El código es requerido" }),
+    firstName: z.string().min(1, { message: "El nombre es requerido" }),
+    lastName: z.string().min(1, { message: "Los apellidos son requeridos" }),
+    email: z.string().min(1, { message: "El email es requerido" }).email({message: "coloque un correo válido"}),
+    code: z.string().min(1, { message: "El código es requerido" }),
     password: z.string({ message: "Introduzca la contraseña" }).min(8, "La contreseña tiene que tener al menos 9 carácteres"),
-    role: z.string(),
+    role: z.string().min(1, {message: "El rol es requerido"}),
 });
 
 const roles = [
@@ -28,29 +30,37 @@ const roles = [
 
 export const Actions = () => {
 
+
+    const [dialogOpen, setDialogOpen] = useState(false);
+
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
             code: "",
-            password: ""
-        },
+            email: "",
+            firstName: "",
+            lastName: "",
+            password: "",
+            role:""
+        }
     });
 
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
-        console.log(values)
-
+        createNewWorker(values)
+        setDialogOpen(false)
+        form.reset()
     }
 
 
     return (
         <>
-            <Dialog >
-                <DialogTrigger>
+            <Dialog open={dialogOpen}>
+                <DialogTrigger asChild onClick={()=>setDialogOpen(true)} >
                     <Button className="cursor-pointer">
                         Añadir Trabajador <FaPlus />
                     </Button>
                 </DialogTrigger>
-                <DialogContent>
+                <DialogContent showCloseButton={false}>
                     <DialogHeader>
                         <DialogTitle>Crear Nuevo Trabajador </DialogTitle>
                     </DialogHeader>
@@ -144,8 +154,8 @@ export const Actions = () => {
                                                                             key={rol.label}
                                                                             value={rol.value}
                                                                             onSelect={() => {
-                                                                                console.log("asd")
                                                                                 form.setValue("role", rol.value)
+                                                                                form.clearErrors("role");
                                                                             }}
                                                                         >
                                                                             {rol.label}
@@ -186,17 +196,19 @@ export const Actions = () => {
                             />
 
 
+                            <DialogFooter>
+                                <DialogClose asChild>
+                                    <Button variant="outline" className="cursor-pointer" onClick={()=>setDialogOpen(false)}>Cancel</Button>
+                                </DialogClose>
+                                <Button type="submit" className="cursor-pointer">Save changes</Button>
+                            </DialogFooter>
+
+
                         </form>
 
                     </Form>
 
 
-                    <DialogFooter>
-                        <DialogClose asChild>
-                            <Button variant="outline" className="cursor-pointer">Cancel</Button>
-                        </DialogClose>
-                        <Button type="submit" className="cursor-pointer">Save changes</Button>
-                    </DialogFooter>
                 </DialogContent>
 
             </Dialog>

@@ -5,7 +5,6 @@ export interface WorkersResponse {
     count:         number;
     data:          Worker[];
 }
-
 export interface Worker {
     id:               string;
     firstName:        string;
