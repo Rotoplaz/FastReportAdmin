@@ -1,6 +1,7 @@
-import { DataTable } from "@/components/dashboard/data-table"
-import { useReports } from "@/hooks/useReports"
+
+import { useReports } from "@/reports/hooks/useReports"
 import { columns } from "@/reports/components/table/columns"
+import { DataTable } from "@/shared/components/dashboard/data-table";
 
 export const Reports = () => {
 

@@ -2,21 +2,14 @@ import { MdReport } from "react-icons/md";
 import { FaCheckCircle } from "react-icons/fa";
 import { BiTime } from "react-icons/bi";
 
-import { OverviewChart } from "@/components/dashboard/OverviewChart";
+
 import { RecentReports } from "@/reports/components/RecentReports";
-import { MetricCard } from "@/components/dashboard/MetricCard";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-
 import { filterOverViewData } from "@/reports/utils/filter-overview-data";
-
 import { OverViewMode } from "@/reports/interfaces/reports.interfaces";
 
-import { PieChartCard } from "@/components/dashboard/PieChart";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { useReports } from "@/hooks/useReports";
-import { transformReportData } from "@/lib/utils";
-
+import { useReports } from "@/reports/hooks/useReports";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle, MetricCard, OverviewChart, PieChartCard, Select, SelectContent, SelectItem, SelectTrigger, SelectValue, Tabs, TabsContent, TabsList, TabsTrigger } from "@/shared/components";
+import { transformReportData } from "@/shared/lib";
 
 export const Resumen = () => {
 

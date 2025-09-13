@@ -1,8 +1,7 @@
 
-import { DataTable } from "@/components/dashboard/data-table"
-import { useWorkers } from "@/hooks/useWorkers"
-import { Actions } from "@/workers/components/Actions";
-import { columns } from "@/workers/components/table/columns"
+import { useWorkers } from "@/shared/hooks/useWorkers"
+import { DataTable } from "@/shared/components/dashboard/data-table";
+import { TableActions, columns } from "@/workers/components";
 
 export const Workers = () => {
 
@@ -14,7 +13,7 @@ export const Workers = () => {
       <DataTable
         columns={columns}
         data={workers}
-        actions={<Actions/ >}
+        actions={<TableActions />}
 
       />
     </div>

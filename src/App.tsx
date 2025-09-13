@@ -2,17 +2,13 @@ import {
   QueryClient,
   QueryClientProvider,
 } from '@tanstack/react-query'
+import { Toaster } from 'sonner';
 
 import { BrowserRouter, Navigate, Route, Routes } from "react-router";
-import { DashboardLayout } from "./layouts/dashboard/DashboardLayout";
-import { Resumen } from "./views/dashboard/Resumen";
-import { Login } from './views/Login';
-import { Toaster } from 'sonner';
-import { ThemeProvider } from './components/ui/theme-provider';
-import { Reports } from './views/dashboard/Reports';
-import { Workers } from './views/dashboard/Workers';
-import { Departments } from './views/dashboard/Departments';
-import { useAuthStore } from './store/auth/useAuthStore';
+
+import { Departments, Login, Reports, Resumen, Workers } from './views';
+import { useAuthStore } from './shared/store';
+import { DashboardLayout, ThemeProvider } from './shared/components';
 
 const queryClient = new QueryClient()
 
