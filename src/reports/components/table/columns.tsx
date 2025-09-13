@@ -1,26 +1,9 @@
-import { AspectRatio } from "@/components/ui/aspect-ratio";
-import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
-import { Report } from "@/reports/interfaces/reports.interfaces";
-
 import { ColumnDef } from "@tanstack/react-table"
 import { ArrowUpDown } from "lucide-react";
 
-// export interface Report {
-//     id:          string;
-//     categoryId:  string;
-//     studentId:   string;
-//     title:       string;
-//     description: string;
-//     priority:    Priority;
-//     status:      Status;
-//     location:    string;
-//     createdAt:   Date;
-//     updatedAt:   Date;
-//     student:     Student;
-//     category:    Category;
-//     photos:      Photo[];
-// }
+import { Report } from "@/reports/interfaces/reports.interfaces";
+import { AspectRatio, Button, Checkbox } from "@/shared/components";
+
 
 
 export const columns: ColumnDef<Report>[] = [

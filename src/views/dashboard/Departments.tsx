@@ -1,6 +1,7 @@
-import { DataTable } from "@/components/dashboard/data-table"
+
 import { columns } from "@/departments/components/table/columns"
 import { useDepartments } from "@/departments/hooks/useDepartments"
+import { DataTable } from "@/shared/components/dashboard/data-table";
 
 export const Departments = () => {
 

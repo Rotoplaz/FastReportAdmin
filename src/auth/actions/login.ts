@@ -1,4 +1,4 @@
-import { reportsApi } from "@/api/reports/reports-api"
+import { reportsApi } from "@/shared/lib/api/reports-api"
 import { LoginResponse } from "../interfaces/login.interface";
 
 interface Data {

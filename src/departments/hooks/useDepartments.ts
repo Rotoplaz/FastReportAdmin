@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query"
 import { Department, DepartmentsResponse } from "../interfaces/departments-response"
-import { reportsApi } from "@/api/reports/reports-api";
+import { reportsApi } from "@/shared/lib";
 
 
 

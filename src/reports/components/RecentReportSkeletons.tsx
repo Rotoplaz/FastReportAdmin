@@ -1,4 +1,5 @@
-import { Skeleton } from '../../components/ui/skeleton';
+import { Skeleton } from "@/shared/components";
+
 
 
 export const RecentReportSkeletons = ({ count = 3 }: { count?: number }) => {
