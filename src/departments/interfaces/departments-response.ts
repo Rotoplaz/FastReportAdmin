@@ -7,13 +7,12 @@ export interface DepartmentsResponse {
 }
 
 export interface Department {
-    id:           string;
-    name:         string;
-    description:  string;
-    supervisorId: string;
-    createdAt:    Date;
-    updatedAt:    Date;
-    supervisor:   Supervisor;
+    id:          string;
+    name:        string;
+    description: string;
+    createdAt:   Date;
+    updatedAt:   Date;
+    supervisor:  Supervisor | null;
 }
 
 export interface Supervisor {

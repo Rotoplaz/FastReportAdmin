@@ -32,7 +32,7 @@ import { ChevronDown } from "lucide-react"
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
-  actions?: ReactNode;
+  actions?: (table: ReturnType<typeof useReactTable<TData>>) => ReactNode;
 }
 
 export function DataTable<TData, TValue>({
@@ -90,7 +90,7 @@ export function DataTable<TData, TValue>({
               })}
           </DropdownMenuContent>
         </DropdownMenu>
-        {actions}
+        {actions && actions(table)}
       </div>
       <div className="overflow-hidden rounded-md border">
         <Table>

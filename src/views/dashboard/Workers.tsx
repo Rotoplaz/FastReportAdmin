@@ -1,5 +1,5 @@
 
-import { useWorkers } from "@/shared/hooks/useWorkers"
+import { useWorkers } from "@/workers/hooks/useWorkers"
 import { DataTable } from "@/shared/components/dashboard/data-table";
 import { TableActions, columns } from "@/workers/components";
 
@@ -13,7 +13,7 @@ export const Workers = () => {
       <DataTable
         columns={columns}
         data={workers}
-        actions={<TableActions />}
+        actions={(table)=><TableActions table={table} />}
 
       />
     </div>

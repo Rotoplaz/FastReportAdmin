@@ -1,2 +1,2 @@
 export * from './use-mobile';
-export * from './useWorkers';
+export * from '../../workers/hooks/useWorkers';

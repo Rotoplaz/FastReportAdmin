@@ -58,6 +58,9 @@ export const columns: ColumnDef<Department>[] = [
         header: "Supervisor",
         cell: ({ row }) => {
             const supervisor = row.original.supervisor;
+            if (!supervisor) {
+                return `Sin asignar`;
+            }
             return `${supervisor.firstName} ${supervisor.lastName}`;
         },
     },
@@ -65,7 +68,12 @@ export const columns: ColumnDef<Department>[] = [
         id: "supervisorEmail",
         header: "Correo del supervisor",
         cell: ({ row }) => {
-            const email = row.original.supervisor.email;
+           const supervisor = row.original.supervisor;
+            if (!supervisor) {
+                return `Sin asignar`;
+            }
+            const email = supervisor.email;
+
             return (
                 <span className="truncate max-w-[200px]" title={email}>
                     {email}
