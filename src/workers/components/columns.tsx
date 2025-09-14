@@ -86,8 +86,8 @@ export const columns: ColumnDef<Worker>[] = [
             if (worker.role === Role.Worker && worker.workerDepartment) {
                 return worker.workerDepartment.name
             }
-            if (worker.role === Role.Supervisor && worker.department) {
-                return worker.department.name
+            if (worker.role === Role.Supervisor && worker.supervisesDepartment) {
+                return worker.supervisesDepartment.name
             }
             return "-"
         },

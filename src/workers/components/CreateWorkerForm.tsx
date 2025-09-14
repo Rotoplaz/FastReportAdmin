@@ -1,7 +1,7 @@
 
 
 import { z } from "zod"
-import { createNewWorker } from "../actions/create-worker.use-case";
+import { createNewWorker } from "../actions/create-worker.action";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Role } from "../interfaces/worker.response";
@@ -186,8 +186,8 @@ export const CreateWorkerForm = ({ onCancel, onSubmit }: Props) => {
 
                     <div className="flex gap-2 justify-end">
 
-                        <Button variant="outline" className="cursor-pointer" type="button" onClick={() => onCancel && onCancel()}>Cancel</Button>
-                        <Button type="submit" className="cursor-pointer">Save changes</Button>
+                        <Button variant="outline" className="cursor-pointer" type="button" onClick={() => onCancel && onCancel()}>Cancelar</Button>
+                        <Button type="submit" className="cursor-pointer">Guardar</Button>
                     </div>
 
 
