@@ -8,6 +8,7 @@ import { Role } from "../interfaces/worker.response";
 import { Button, Command, CommandGroup, CommandItem, CommandList, Form, FormControl, FormField, FormItem, FormLabel, FormMessage, Input, Popover, PopoverContent, PopoverTrigger } from "@/shared/components";
 import { cn } from "@/shared/lib";
 import { Check } from "lucide-react";
+import { toast } from "sonner";
 
 const formSchema = z.object({
     firstName: z.string().min(1, { message: "El nombre es requerido" }),
@@ -46,11 +47,16 @@ export const CreateWorkerForm = ({ onCancel, onSubmit }: Props) => {
 
 
     const onFormSubmit = async (values: z.infer<typeof formSchema>) => {
-        createNewWorker(values);
+        const worker = await createNewWorker(values);
+        if(!worker){
+            toast.error("Error Creando usuario, intente mas tarde.")
+            return;
+        }
         if (onSubmit) {
             onSubmit()
         }
         form.reset()
+        toast.success("Trabajador creado exitosamente", { description: `${worker?.firstName} ${worker?.lastName}` })
     }
 
     return (

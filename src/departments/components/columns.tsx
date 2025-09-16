@@ -1,7 +1,7 @@
 import { ColumnDef } from "@tanstack/react-table"
 import { ArrowUpDown } from "lucide-react"
-import { Department } from "@/departments/interfaces/departments-response";
 import { Button, Checkbox } from "@/shared/components";
+import { Department } from "../interfaces/departments-response";
 
 export const columns: ColumnDef<Department>[] = [
     {

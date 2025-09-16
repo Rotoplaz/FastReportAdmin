@@ -8,45 +8,38 @@ import { Table } from "@tanstack/react-table";
 import { Worker } from "../interfaces/worker.response";
 import { toast } from "sonner";
 import { deleteManyUsers } from "../actions/delete-many-users.action";
-import { useWorkersStore } from "../store/useStoreWorkers";
 
 interface Props {
     table: Table<Worker>;
 }
 export const TableActions = ({ table }: Props) => {
-    const { deleteWorkers: deleteWorkersStore } = useWorkersStore();
     const [dialogOpen, setDialogOpen] = useState(false);
     const [dialogOpenDelete, setDialogOpenDelete] = useState(false);
-    
-    const deleteWorkers = async (ids: string[]) => {
-        if (ids.length === 0) {
-            toast.warning("No seleccionaste ningún trabajador para eliminar.");
-            return;
-        }
 
-        const ok = await deleteManyUsers(ids);
+    const handleDeleteWorkers = async () => {
+        const selectedWorkers = table.getSelectedRowModel().rows.map(row => row.original);
+
+        const selectedIds = selectedWorkers.map(worker => worker.id);
+
+        const ok = await deleteManyUsers(selectedIds);
         if (!ok) {
             toast.error("Error eliminando a los trabajadores", {
                 description: "Hubo un error en la eliminación, intente de nuevo.",
             });
             return;
         }
-        deleteWorkersStore(ids);
 
+        setDialogOpenDelete(false);
         toast.success("Trabajadores eliminados correctamente.");
     };
 
-    const handleDelete = () => {
-        const selectedWorkers = table.getSelectedRowModel().rows.map(row => row.original);
-        const selectedIds = selectedWorkers.map(worker => worker.id);
-        deleteWorkers(selectedIds);
-        table.resetRowSelection();
-    };
 
     return (
         <div className="flex gap-2">
             <Dialog open={dialogOpen}>
-                <DialogTrigger asChild onClick={() => setDialogOpen(true)} >
+                <DialogTrigger asChild onClick={() => {
+                    setDialogOpen(true)
+                }} >
                     <Button className="cursor-pointer">
                         <FaPlus /> Añadir Trabajador
                     </Button>
@@ -63,7 +56,14 @@ export const TableActions = ({ table }: Props) => {
 
             <Dialog open={dialogOpenDelete}>
                 <DialogTrigger asChild>
-                    <Button className="cursor-pointer" variant="destructive" onClick={() => setDialogOpenDelete(true)}>
+                    <Button className="cursor-pointer" variant="destructive" onClick={() => {
+                        const selectedWorkers = table.getSelectedRowModel().rows.map(row => row.original);
+                        if (selectedWorkers.length <= 0) {
+                            toast.warning("Favor de seleccionar registros a eliminar.")
+                            return;
+                        }
+                        setDialogOpenDelete(true)
+                    }}>
                         <FaRegTrashCan /> Eliminar Trabajadores
                     </Button>
                 </DialogTrigger>
@@ -78,12 +78,12 @@ export const TableActions = ({ table }: Props) => {
 
                     <DialogFooter>
                         <DialogClose asChild>
-                            <Button variant="outline" className="cursor-pointer">
+                            <Button variant="outline" className="cursor-pointer" onClick={() => setDialogOpenDelete(false)}>
                                 Cancelar
                             </Button>
                         </DialogClose>
 
-                        <Button variant="destructive" onClick={() => { handleDelete(); setDialogOpenDelete(false); }} className="cursor-pointer">
+                        <Button variant="destructive" onClick={() => handleDeleteWorkers()} className="cursor-pointer">
                             Eliminar
                         </Button>
                     </DialogFooter>

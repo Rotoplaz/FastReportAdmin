@@ -2,6 +2,7 @@
 import { columns } from "@/departments/components/columns"
 import { useDepartments } from "@/departments/hooks/useDepartments"
 import { DataTable } from "@/shared/components/dashboard/data-table";
+import { TableActions } from "../components/TableActions";
 
 export const Departments = () => {
 
@@ -9,10 +10,11 @@ export const Departments = () => {
 
   return (
     <div>
-      <DataTable 
-        columns={columns} 
+      <DataTable
+        columns={columns}
         data={data || []}
-        />
+        actions={(table) => <TableActions table={table} />}
+      />
     </div>
   )
 }
