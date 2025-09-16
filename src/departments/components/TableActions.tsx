@@ -2,10 +2,10 @@
 import { Table } from "@tanstack/react-table";
 import { Department } from "../interfaces/departments-response";
 import { Button, Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/shared/components";
-import { CreateWorkerForm } from "@/workers/components/CreateWorkerForm";
 import { FaPlus, FaRegTrashCan } from "react-icons/fa6";
 import { toast } from "sonner";
 import { useState } from "react";
+import { CreateDepartmentForm } from "./CreateDepartmentForm";
 
 interface Props {
   table: Table<Department>
@@ -27,10 +27,10 @@ export const TableActions = ({ table }: Props) => {
         </DialogTrigger>
         <DialogContent showCloseButton={false}>
           <DialogHeader>
-            <DialogTitle>Crear Nuevo Trabajador</DialogTitle>
+            <DialogTitle>Crear Nuevo Departamento</DialogTitle>
           </DialogHeader>
 
-          <CreateWorkerForm onCancel={() => setDialogOpen(false)} onSubmit={() => setDialogOpen(false)} />
+          <CreateDepartmentForm onCancel={() => setDialogOpen(false)} onSubmit={() => setDialogOpen(false)} />
 
         </DialogContent>
       </Dialog>
