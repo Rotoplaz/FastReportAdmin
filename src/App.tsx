@@ -6,9 +6,13 @@ import { Toaster } from 'sonner';
 
 import { BrowserRouter, Navigate, Route, Routes } from "react-router";
 
-import { Departments, Login, Reports, Resumen, Workers } from './views';
 import { useAuthStore } from './shared/store';
 import { DashboardLayout, ThemeProvider } from './shared/components';
+import { Login } from './auth/views/Login';
+import { Resumen } from './reports/views/Resumen';
+import { Reports } from './reports/views/Reports';
+import { Workers } from './workers/views/Workers';
+import { Departments } from './departments/views/Departments';
 
 const queryClient = new QueryClient()
 

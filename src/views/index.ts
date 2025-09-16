@@ -1,5 +1,0 @@
-export * from "./auth/Login"
-export * from "./dashboard/Departments"
-export * from "./dashboard/Resumen"
-export * from "./dashboard/Reports"
-export * from "./dashboard/Workers"
