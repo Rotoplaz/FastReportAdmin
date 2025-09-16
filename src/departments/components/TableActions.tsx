@@ -6,6 +6,7 @@ import { FaPlus, FaRegTrashCan } from "react-icons/fa6";
 import { toast } from "sonner";
 import { useState } from "react";
 import { CreateDepartmentForm } from "./CreateDepartmentForm";
+import { useDepartments } from "../hooks/useDepartments";
 
 interface Props {
   table: Table<Department>
@@ -14,6 +15,33 @@ interface Props {
 export const TableActions = ({ table }: Props) => {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [dialogOpenDelete, setDialogOpenDelete] = useState(false);
+  const { deleteDepartments } = useDepartments();
+
+  const handleDeleteDepartments = async () => {
+    const selectedWorkers = table.getSelectedRowModel().rows.map(row => row.original);
+    const selectedIds = selectedWorkers.map(worker => worker.id);
+
+    try {
+      const deletedIds = await deleteDepartments(selectedIds);
+
+      if (!deletedIds.length) {
+        throw new Error("No departments were deleted.");
+      }
+
+      setDialogOpenDelete(false);
+      toast.success("Departamentos eliminados correctamente.");
+    } catch (error) {
+      console.log(error);
+
+      const message =
+        error instanceof Error ? error.message : "Error eliminando los departamentos";
+
+      toast.error("Error eliminando a los departamentos", {
+        description: message,
+      });
+    }
+  };
+
 
   return (
     <div className="flex gap-2">
@@ -30,7 +58,10 @@ export const TableActions = ({ table }: Props) => {
             <DialogTitle>Crear Nuevo Departamento</DialogTitle>
           </DialogHeader>
 
-          <CreateDepartmentForm onCancel={() => setDialogOpen(false)} onSubmit={() => setDialogOpen(false)} />
+          <CreateDepartmentForm onCancel={() => setDialogOpen(false)} onSubmit={() => { 
+            setDialogOpen(false) 
+            table.resetRowSelection();
+          }} />
 
         </DialogContent>
       </Dialog>
@@ -64,7 +95,7 @@ export const TableActions = ({ table }: Props) => {
               </Button>
             </DialogClose>
 
-            <Button variant="destructive" onClick={() => {}} className="cursor-pointer">
+            <Button variant="destructive" onClick={() => handleDeleteDepartments()} className="cursor-pointer">
               Eliminar
             </Button>
           </DialogFooter>

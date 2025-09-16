@@ -1,14 +1,9 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useEffect, useState } from "react";
 import { z } from "zod";
 
 import {
   Button,
-  Command,
-  CommandGroup,
-  CommandItem,
-  CommandList,
   Form,
   FormControl,
   FormField,
@@ -16,35 +11,42 @@ import {
   FormLabel,
   FormMessage,
   Input,
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
 } from "@/shared/components";
-import { Check } from "lucide-react";
-import { cn, reportsApi } from "@/shared/lib";
 import { toast } from "sonner";
+import { useDepartments } from "../hooks/useDepartments";
+import { SupervisorComboBox } from "./SupervisorSelector";
+import { getUnassignedWorkers, UnassignedWorker } from "@/workers/actions/get-unassigned-workers";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 
 interface Props {
   onSubmit?: () => void;
   onCancel?: () => void;
 }
 
-export interface User {
+export interface Supervisor {
   id: string;
   firstName: string;
   lastName: string;
-  role: "supervisor" | "worker";
+  role: "supervisor";
 }
 
 
 const createDepartmentSchema = z.object({
   name: z.string().min(1, "El nombre del departamento es requerido"),
   description: z.string().min(1, "La descripción es requerida"),
-  supervisorId: z.string().uuid().optional(),
+  supervisorId: z.string().uuid().optional().nullable(),
 });
 
 
 export const CreateDepartmentForm = ({ onSubmit, onCancel }: Props) => {
+
+   const queryClient = useQueryClient();
+  const { data: supervisors = [] } = useQuery<UnassignedWorker[]>({
+    queryKey: ["unassigned-supervisors"],
+    queryFn: getUnassignedWorkers,
+  });
+
+  const { createDepartment } = useDepartments();
   const form = useForm<z.infer<typeof createDepartmentSchema>>({
     resolver: zodResolver(createDepartmentSchema),
     defaultValues: {
@@ -54,33 +56,18 @@ export const CreateDepartmentForm = ({ onSubmit, onCancel }: Props) => {
     },
   });
 
-  const [availableSupervisors, setAvailableSupervisors] = useState<User[]>([]);
-
-  useEffect(() => {
-    const fetchSupervisors = async () => {
-      try {
-        const res = await reportsApi.get<User[]>("/users/unassigned");
-        const supervisors = res.data.filter((user) => user.role === "supervisor");
-        console.log(supervisors)
-        setAvailableSupervisors(supervisors);
-      } catch (error) {
-        console.error("Error al obtener supervisores sin departamento", error);
-      }
-    };
-
-    fetchSupervisors();
-  }, []);
 
   const onFormSubmit = async (values: z.infer<typeof createDepartmentSchema>) => {
-    // const department = await createNewDepartment(values);
-    // if (!department) {
-    //   toast.error("Error creando departamento");
-    //   return;
-    // }
+    const department = await createDepartment({ description: values.description, name: values.name, supervisorId: values.supervisorId || null });
+    if (!department) {
+      toast.error("Error creando departamento");
+      return;
+    }
 
-    // if (onSubmit) onSubmit();
-    // form.reset();
-    // toast.success("Departamento creado exitosamente", { description: department.name });
+    if (onSubmit) onSubmit();
+    form.reset();
+    queryClient.invalidateQueries({ queryKey: ["unassigned-supervisors"] });
+    toast.success("Departamento creado exitosamente", { description: department.name });
   };
 
   return (
@@ -117,84 +104,30 @@ export const CreateDepartmentForm = ({ onSubmit, onCancel }: Props) => {
         <FormField
           control={form.control}
           name="supervisorId"
-          render={({ field }) => (
-            <FormItem className="flex flex-col">
-              <FormLabel className="cursor-pointer" >Supervisor (opcional)</FormLabel>
-              <Popover>
-                <PopoverTrigger asChild>
-                  <FormControl>
-                    <Button
-                      variant="outline"
-                      className={cn(
-                        "w-full justify-between truncate cursor-pointer",
-                        !field.value && "text-muted-foreground"
-                      )}
-                      role="combobox"
-                    >
-                      {field.value
-                        ? (() => {
-                          const user = availableSupervisors.find((user) => user.id === field.value);
-                          return user ? `${user.firstName} ${user.lastName}` : "";
-                        })()
-                        : "Seleccionar supervisor"}
-                    </Button>
-                  </FormControl>
-                </PopoverTrigger>
-                <PopoverContent className="p-0" align="start" style={{ pointerEvents: "auto" }}>
-                  <Command>
-                    <CommandList>
-                      <CommandGroup>
-                        <CommandItem
-                          value="none"
-                          onSelect={() => {
-                            form.setValue("supervisorId", undefined);
-                            form.clearErrors("supervisorId");
-                          }}
-                          className="cursor-pointer"
-                        >
-                          Sin supervisor
-                          <Check
-                            className={cn(
-                              "ml-auto",
-                              !field.value ? "opacity-100" : "opacity-0"
-                            )}
-                          />
-                        </CommandItem>
+          render={() => {
 
-                        {availableSupervisors.map((user) => (
-                          <CommandItem
-                            key={user.id}
-                            value={user.id}
-                            onSelect={() => {
-                              form.setValue("supervisorId", user.id);
-                              form.clearErrors("supervisorId");
-                            }}
-                            className="cursor-pointer"
-                          >
-                            {user.firstName}
-                            <Check
-                              className={cn(
-                                "ml-auto",
-                                user.id === field.value ? "opacity-100" : "opacity-0"
-                              )}
-                            />
-                          </CommandItem>
-                        ))}
-                      </CommandGroup>
-                    </CommandList>
-                  </Command>
-                </PopoverContent>
-              </Popover>
-              <FormMessage />
-            </FormItem>
-          )}
+            return (
+              <FormItem className="flex flex-col">
+                <FormLabel className="cursor-pointer" >Supervisor (opcional)</FormLabel>
+                <SupervisorComboBox
+                  supervisors={supervisors}
+                  selectedSupervisor={null}
+                  onChange={(supervisor) => {
+                    form.setValue("supervisorId", supervisor?.id);
+                    form.clearErrors("supervisorId");
+                  }}
+                />
+                <FormMessage />
+              </FormItem>
+            )
+          }}
         />
 
         <div className="flex justify-end gap-2">
-          <Button type="button" variant="outline" onClick={onCancel}>
+          <Button type="button" variant="outline" onClick={onCancel} className="cursor-pointer">
             Cancelar
           </Button>
-          <Button type="submit">Guardar</Button>
+          <Button type="submit" className="cursor-pointer">Guardar</Button>
         </div>
       </form>
     </Form>
