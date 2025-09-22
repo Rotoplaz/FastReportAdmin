@@ -1,7 +1,7 @@
 
 import { NotifyReportProvider } from '@/shared/components/providers/NotifyReportProvider'
 import { Separator } from '@/shared/components/ui/separator'
-import { SidebarInset, SidebarProvider, SidebarTrigger } from '@/shared/components/ui/sidebar'
+import { SidebarProvider, SidebarTrigger } from '@/shared/components/ui/sidebar'
 import { useAuthStore } from '@/shared/store/auth/useAuthStore'
 
 import React from 'react'
@@ -22,7 +22,8 @@ export const DashboardLayout = () => {
             } as React.CSSProperties}
         >
             <AppSidebar />
-            <SidebarInset >
+            <div className="w-full">
+
                 <header className="flex h-16 shrink-0 items-center gap-2 border-b px-4 mb-3">
                     <SidebarTrigger className="-ml-1" />
                     <Separator orientation="vertical" className="mr-2 h-4" />
@@ -30,7 +31,7 @@ export const DashboardLayout = () => {
                         Departamento:{" "}
                         {user?.role === "admin"
                             ? "General"
-                            : user?.department.name ?? "Sin asignar"}
+                            : user?.supervisesDepartment?.name ?? "Sin asignar"}
                     </h1>
                 </header>
                 <NotifyReportProvider>
@@ -38,8 +39,8 @@ export const DashboardLayout = () => {
                         <Outlet />
                     </div>
                 </NotifyReportProvider>
+            </div>
 
-            </SidebarInset>
         </SidebarProvider>
     )
 }

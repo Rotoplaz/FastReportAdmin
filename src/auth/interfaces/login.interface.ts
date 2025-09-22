@@ -4,19 +4,19 @@ export interface LoginResponse {
 }
 
 export interface User {
-    id:           string;
-    firstName:    string;
-    lastName:     string;
-    email:        string;
-    code:         string;
-    role:         string;
-    createdAt:    Date;
-    updatedAt:    Date;
-    departmentId: null;
-    department:   Department;
+    id:                   string;
+    firstName:            string;
+    lastName:             string;
+    email:                string;
+    code:                 string;
+    role:                 string;
+    createdAt:            Date;
+    updatedAt:            Date;
+    workerDepartmentId:   null;
+    supervisesDepartment: SupervisesDepartment;
 }
 
-export interface Department {
+export interface SupervisesDepartment {
     id:           string;
     name:         string;
     description:  string;
