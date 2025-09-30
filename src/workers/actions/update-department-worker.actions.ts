@@ -18,6 +18,6 @@ export const updateDepartmentWorker = async (workerId: string, departmentId: str
       throw new Error(data.message);
     }
 
-    throw new Error("Ocurrió un error inesperado al eliminar los departamentos.");
+    throw new Error("Ocurrió un error inesperado al actualizar el departamento.");
     }
 }

@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form"
 
 import { login as loginAction } from "@/auth/actions"
 
-import { Button, Card, CardContent, CardDescription, CardHeader, CardTitle, Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage, Input } from "@/shared/components"
+import { Button, Card, CardContent, CardDescription, CardHeader, CardTitle, Form, FormControl, FormField, FormItem, FormLabel, FormMessage, Input } from "@/shared/components"
 import { useAuthStore } from "@/shared/store"
 import { cn } from "@/shared/lib"
 
@@ -43,10 +43,9 @@ export function LoginForm({
   }
 
   return (
-    <div className={cn("flex flex-col gap-6", className)} {...props}>
-      <Card>
+      <Card className={cn("flex flex-col gap-6", className)} {...props}>
         <CardHeader className="text-center">
-          <CardTitle className="text-xl">Welcome back</CardTitle>
+          <CardTitle className="text-xl">Solo personal autorizado.</CardTitle>
           <CardDescription>
 
           </CardDescription>
@@ -85,15 +84,6 @@ export function LoginForm({
                           <FormControl>
                             <Input type="password" placeholder="escribe tu contraseña aqui..." {...field} />
                           </FormControl>
-                          <FormDescription>
-                            <a
-                              href="#"
-                              className="ml-auto text-sm underline-offset-4 hover:underline"
-                            >
-                              Forgot your password?
-                            </a>
-
-                          </FormDescription>
                           <FormMessage />
                         </FormItem>
                       )}
@@ -104,21 +94,12 @@ export function LoginForm({
                     Inicias Sesion
                   </Button>
                 </div>
-                <div className="text-center text-sm">
-                  Don&apos;t have an account?{" "}
-                  <a href="#" className="underline underline-offset-4">
-                    Sign up
-                  </a>
-                </div>
+
               </div>
             </form>
           </Form>
         </CardContent>
       </Card>
-      <div className="text-muted-foreground *:[a]:hover:text-primary text-center text-xs text-balance *:[a]:underline *:[a]:underline-offset-4">
-        By clicking continue, you agree to our <a href="#">Terms of Service</a>{" "}
-        and <a href="#">Privacy Policy</a>.
-      </div>
-    </div>
+
   )
 }

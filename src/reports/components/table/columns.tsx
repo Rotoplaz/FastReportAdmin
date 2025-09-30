@@ -3,6 +3,7 @@ import { ArrowUpDown } from "lucide-react";
 
 import { Report } from "@/reports/interfaces/reports.interfaces";
 import { AspectRatio, Button, Checkbox } from "@/shared/components";
+import { formatDate } from "@/shared/lib";
 
 
 
@@ -39,7 +40,7 @@ export const columns: ColumnDef<Report>[] = [
         cell: ({ getValue }) => {
             const text = getValue() as string;
             return (
-                <div className="2xl:max-w-[420px] md:max-w-[300px] truncate" title={text}>
+                <div className="2xl:max-w-[300px] truncate" title={text}>
                     {text}
                 </div>
             );
@@ -95,7 +96,7 @@ export const columns: ColumnDef<Report>[] = [
                 low: "Baja",
             };
 
-            return priorityTranslations[priority] || priority;
+            return <div className="pl-4">{priorityTranslations[priority] || priority}</div>
         },
         header: ({ column }) => {
             return (
@@ -144,11 +145,7 @@ export const columns: ColumnDef<Report>[] = [
         },
         cell: ({ getValue }) => {
             const date = new Date(getValue() as string);
-            const day = date.getDate().toString().padStart(2, '0');
-            const month = (date.getMonth() + 1).toString().padStart(2, '0');
-            const year = date.getFullYear();
-
-            return `${day}/${month}/${year}`;
+            return formatDate(date);
         },
         sortingFn: (rowA, rowB, columnId) => {
             const dateA = new Date(rowA.getValue(columnId) as string).getTime();

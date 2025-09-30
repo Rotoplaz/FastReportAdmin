@@ -2,17 +2,11 @@
 @import "tw-animate-css";
 
 @custom-variant dark (&:is(.dark *));
-/* 
-  --color-high: #ef4444; 
-  --color-medium: #facc15; 
-  --color-low: #10b981; 
-  
-*/
 
 :root {
-  --color-high: #ef4444;
-  --color-medium: #facc15;
-  --color-low: #10b981;
+  --color-high: #f75b5b;
+  --color-medium: #ead270;
+  --color-low: #49daa9;
   --background: oklch(0.9809 0.0025 228.7836);
   --foreground: oklch(0.4091 0.0226 200.5214);
   --card: oklch(1 0 0);
@@ -25,8 +19,8 @@
   --secondary-foreground: oklch(0.4091 0.0226 200.5214);
   --muted: oklch(0.9022 0.0086 225.0905);
   --muted-foreground: oklch(0.5739 0.0249 207.0446);
-  --accent: oklch(0.7664 0.0789 273.9104);
-  --accent-foreground: oklch(0.336 0.0537 308.9927);
+  --accent: oklch(0.8735 0.0442 239.8544);
+  --accent-foreground: oklch(0.3697 0.0296 227.5196);
   --destructive: oklch(0.5684 0.1716 24.4077);
   --destructive-foreground: oklch(0.9809 0.0025 228.7836);
   --border: oklch(0.863 0.0138 226.5857);
@@ -41,8 +35,8 @@
   --sidebar-foreground: oklch(0.4091 0.0226 200.5214);
   --sidebar-primary: oklch(0.6674 0.0445 230.6319);
   --sidebar-primary-foreground: oklch(0.9809 0.0025 228.7836);
-  --sidebar-accent: oklch(0.7857 0.1028 315.8535);
-  --sidebar-accent-foreground: oklch(0.3382 0.0565 316.3947);
+  --sidebar-accent: oklch(0.8735 0.0442 239.8544);
+  --sidebar-accent-foreground: oklch(0.3697 0.0296 227.5196);
   --sidebar-border: oklch(0.886 0.0119 231.6713);
   --sidebar-ring: oklch(0.6674 0.0445 230.6319);
   --font-sans: Geist, sans-serif;
@@ -170,6 +164,7 @@
   --shadow-xl: var(--shadow-xl);
   --shadow-2xl: var(--shadow-2xl);
 }
+
 @layer base {
   * {
     @apply border-border outline-ring/50;

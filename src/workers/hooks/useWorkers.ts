@@ -15,6 +15,12 @@ export const useWorkers = () => {
       setWorkers((prev) => [newWorker, ...prev]);
     };
 
+    const handleUpdateUser = () => {
+      socket.emit("getWorkers", (response: WorkersResponse) => {
+        setWorkers(response.data);
+      });
+    }
+
     const handleOnDeleteWorkers = (ids: string[]) => {
       setWorkers((prev) => prev.filter((w) => !ids.includes(w.id)));
     }
@@ -24,6 +30,7 @@ export const useWorkers = () => {
     });
 
     socket.on("newWorker", handleNewWorker);
+    socket.on("updateWorker", handleUpdateUser);
     socket.on("deleteWorkers", handleOnDeleteWorkers);
 
     socket.on("workers", (response: WorkersResponse) => {
@@ -33,6 +40,7 @@ export const useWorkers = () => {
     return () => {
       socket.off("newWorker", handleNewWorker);
       socket.off("workers");
+      socket.off("updateWorker", handleUpdateUser);
       socket.off("deleteWorkers", handleOnDeleteWorkers);
     };
   }, [jwt]);

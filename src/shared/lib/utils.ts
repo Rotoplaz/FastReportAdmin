@@ -1,15 +1,15 @@
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 
-export function cn(...inputs: ClassValue[]) {
+export const cn = (...inputs: ClassValue[]) => {
   return twMerge(clsx(inputs));
 }
 
-export function transformReportData(data: {
+export const transformReportData = (data: {
   highPriorityReports: number;
   mediumPriorityReports: number;
   lowPriorityReports: number;
-}) {
+}) => {
   return [
     {
       label: "Altos",
@@ -28,3 +28,11 @@ export function transformReportData(data: {
     },
   ];
 }
+
+export const formatDate = (date: Date) => {
+  const day = date.getDate().toString().padStart(2, "0");
+  const month = (date.getMonth() + 1).toString().padStart(2, "0");
+  const year = date.getFullYear();
+
+  return `${day}/${month}/${year}`;
+};

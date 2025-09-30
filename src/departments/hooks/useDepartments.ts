@@ -10,7 +10,7 @@ import { deleteManyDepartments } from "../actions/delete-many-departments.action
 export const useDepartments = () => {
   const queryClient = useQueryClient();
 
-  const { data, isLoading, isError, error } = useQuery({
+  const getDepartmentsQuery = useQuery({
     queryKey: ["departments"],
     queryFn: async (): Promise<Department[]> => {
       const { data: response } = await reportsApi.get<DepartmentsResponse>(
@@ -20,7 +20,7 @@ export const useDepartments = () => {
     },
   });
 
-  const createDepartmentMutation = useMutation({
+  const createDepartmentQuery = useMutation({
     mutationFn: createDepartment,
     onSuccess: (newDepartment: Department) => {
       queryClient.setQueryData<Department[]>(["departments"], (old) =>
@@ -29,7 +29,7 @@ export const useDepartments = () => {
     },
   });
 
-  const deleteDepartmentMutation = useMutation({
+  const deleteDepartmentQuery = useMutation({
     mutationFn: deleteManyDepartments,
     onSuccess: (_, deletedIds) => {
       queryClient.setQueryData<Department[]>(
@@ -40,12 +40,8 @@ export const useDepartments = () => {
   });
 
   return {
-    departments: data ?? [],
-    isLoading,
-    isError,
-    error,
-    createDepartment: createDepartmentMutation.mutateAsync,
-    isCreating: createDepartmentMutation.isPending,
-    deleteDepartments: deleteDepartmentMutation.mutateAsync,
+    getDepartmentsQuery,
+    createDepartmentQuery,
+    deleteDepartmentQuery,
   };
 };
