@@ -14,7 +14,7 @@ import {
 } from "@/shared/components";
 import { toast } from "sonner";
 import { useDepartments } from "../hooks/useDepartments";
-import { SelectWorker } from "./SelectWorker";
+import { SelectWorker } from "../../workers/components/SelectWorker";
 import { getUnassignedWorkers } from "@/workers/actions/get-unassigned-workers";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { Worker } from "@/workers/interfaces/worker.response";

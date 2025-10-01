@@ -4,6 +4,7 @@ import { ArrowUpDown } from "lucide-react";
 import { Report } from "@/reports/interfaces/reports.interfaces";
 import { AspectRatio, Button, Checkbox } from "@/shared/components";
 import { formatDate } from "@/shared/lib";
+import { Link } from "react-router";
 
 
 
@@ -33,6 +34,10 @@ export const columns: ColumnDef<Report>[] = [
     {
         accessorKey: "title",
         header: "Titulo",
+        cell: ({ getValue, row }) => {
+
+            return <Link to={`/reporte/${row.original.id}`}>{getValue() as string}</Link>
+        }
     },
     {
         accessorKey: "description",

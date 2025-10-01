@@ -26,28 +26,28 @@ export interface GetReportsRequest {
 }
 
 export interface Report {
-    id:          string;
-    categoryId:  string;
-    studentId:   string;
-    title:       string;
-    description: string;
-    priority:    Priority;
-    status:      Status;
-    location:    string;
-    createdAt:   Date;
-    updatedAt:   Date;
-    student:     Student;
-    category:    Category;
-    images:      Photo[];
+    id:           string;
+    departmentId: string;
+    studentId:    string;
+    title:        string;
+    description:  string;
+    priority:     Priority;
+    status:       Status;
+    location:     string;
+    createdAt:    Date;
+    updatedAt:    Date;
+    student:      Student;
+    department:   Department;
+    images:       Image[];
 }
 
-export interface Category {
+export interface Department {
     id:          string;
     name:        string;
     description: string;
 }
 
-export interface Photo {
+export interface Image {
     url: string;
     id:  string;
 }

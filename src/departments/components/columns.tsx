@@ -7,7 +7,7 @@ import { getUnassignedWorkers } from "@/workers/actions/get-unassigned-workers";
 import { toast } from "sonner";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { formatDate } from "@/shared/lib";
-import { SelectWorker } from "./SelectWorker";
+import { SelectWorker } from "../../workers/components/SelectWorker";
 import { Worker } from "@/workers/interfaces/worker.response";
 
 export const useDepartmentColumns = (): ColumnDef<Department>[] => {

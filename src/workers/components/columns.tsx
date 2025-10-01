@@ -5,26 +5,49 @@ import { ArrowUpDown } from "lucide-react"
 import { Role, Worker } from "@/workers/interfaces/worker.response"
 import { formatDate } from "@/shared/lib"
 import { useAuthStore } from "@/shared/store"
-import { RoleSelector } from "./RoleSelector" 
+import { RoleSelector } from "./RoleSelector"
 import { toast } from "sonner"
 import { updateRoleWorker } from "../actions/update-role-user.action"
-import { useQueryClient } from "@tanstack/react-query"
+import { useQuery, useQueryClient } from "@tanstack/react-query"
+import { Department } from "@/departments/interfaces/departments-response"
+import { SelectDepartment } from "@/departments/components/SelectDepartment"
+import { getAllDepartments } from "@/departments/actions/get-all-departments.action"
+import { updateWorkerDepartment } from "../actions/update-worker-department.actions"
 
 
 
 export const useWorkersColumns = () => {
     const user = useAuthStore(state => state.user);
     const queryClient = useQueryClient();
+
+    const { data: departments = [] } = useQuery<Department[]>({
+        queryKey: ["departments", "all"],
+        queryFn: getAllDepartments,
+    });
+
     const handleRoleChange = async (workerId: string, newRole: Role) => {
         try {
             await updateRoleWorker(workerId, newRole);
             toast.success("Rol actualizado correctamente.");
             queryClient.invalidateQueries({ queryKey: ["workers"] });
+
+            queryClient.invalidateQueries({ queryKey: ["unassigned-supervisors"] });
         } catch (error) {
             console.log(error)
-            toast.error("Error actualizando el rol.", {description: "Intentelo más tarde."})
+            toast.error("Error actualizando el rol.", { description: "Intentelo más tarde." })
         }
     }
+
+    const handleDepartmentChange = async (workerId: string, departmentId: string | null) => {
+        try {
+            await updateWorkerDepartment(workerId, departmentId);
+            toast.success("Departamento actualizado correctamente.");
+            queryClient.invalidateQueries({ queryKey: ["workers"] });
+        } catch (error) {
+            console.log(error);
+            toast.error("Error actualizando el departamento.", { description: "Inténtelo más tarde." });
+        }
+    };
 
     const columns: ColumnDef<Worker>[] = [
         {
@@ -118,12 +141,24 @@ export const useWorkersColumns = () => {
             header: "Departamento",
             cell: ({ row }) => {
                 const worker = row.original
-                if (worker.role === Role.Worker && worker.workerDepartment) {
-                    return worker.workerDepartment.name
+                if (worker.role === Role.Worker && user?.role === "admin") {
+                    return (
+                        <SelectDepartment
+                            departments={departments}
+                            selectedDepartmentId={worker.workerDepartment?.id}
+                            onChange={(departmentId) => handleDepartmentChange(worker.id, departmentId)}
+                        />
+                    )
                 }
+
                 if (worker.role === Role.Supervisor && worker.supervisesDepartment) {
                     return worker.supervisesDepartment.name
                 }
+
+                if (worker.role === Role.Worker && worker.workerDepartment) {
+                    return worker.workerDepartment.name
+                }
+
                 return "-"
             },
         },
@@ -154,6 +189,9 @@ export const useWorkersColumns = () => {
             sortDescFirst: true,
         },
     ]
-
-    return columns
+    const finalColumns =
+        user?.role === Role.Supervisor
+            ? columns.filter(col => col.id !== "department")
+            : columns;
+    return finalColumns
 }
