@@ -15,23 +15,19 @@ interface Props {
 export const TableActions = ({ table }: Props) => {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [dialogOpenDelete, setDialogOpenDelete] = useState(false);
-  const { deleteDepartments } = useDepartments();
+  const { deleteDepartmentQuery }  = useDepartments();
 
   const handleDeleteDepartments = async () => {
     const selectedWorkers = table.getSelectedRowModel().rows.map(row => row.original);
     const selectedIds = selectedWorkers.map(worker => worker.id);
 
     try {
-      const deletedIds = await deleteDepartments(selectedIds);
-
-      if (!deletedIds.length) {
-        throw new Error("No departments were deleted.");
-      }
+      
+      await deleteDepartmentQuery.mutateAsync(selectedIds);
 
       setDialogOpenDelete(false);
       toast.success("Departamentos eliminados correctamente.");
     } catch (error) {
-      console.log(error);
 
       const message =
         error instanceof Error ? error.message : "Error eliminando los departamentos";

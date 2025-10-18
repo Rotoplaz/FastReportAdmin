@@ -1,40 +1,46 @@
 import { cn } from "@/shared/lib";
-import { UnassignedWorker } from "@/workers/actions/get-unassigned-workers";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/shared/components";
+import { Worker } from "@/workers/interfaces/worker.response";
 
 interface Props {
-  supervisors: UnassignedWorker[];
-  selectedSupervisor?: UnassignedWorker | null;
-  onChange: (worker: UnassignedWorker | null) => void;
+  workers: Worker[];
+  selectedWorker?: Worker | null;
+  onChange: (worker: Worker | null) => void;
   includeNoneOption?: boolean;
   disabled?: boolean;
   placeholder?: string;
   className?: string;
 }
 
-export const SupervisorComboBox = ({
-  selectedSupervisor,
+export const SelectWorker = ({
+  selectedWorker: selectedSupervisor,
   onChange,
   includeNoneOption = true,
   disabled = false,
   placeholder = "Seleccionar supervisor",
   className,
-  supervisors
+  workers
 }: Props) => {
+
+
+  const allAvailableSupervisors = [
+    ...workers,
+    ...(selectedSupervisor && !workers.some(s => s.id === selectedSupervisor.id)
+      ? [selectedSupervisor]
+      : [])
+  ];
+
+
   const handleChange = (selectedId: string) => {
     if (selectedId === "none") {
       onChange(null);
     } else {
-      const selectedWorker =
-        supervisors.find((s) => s.id === selectedId) ||
-        (selectedSupervisor?.id === selectedId ? selectedSupervisor : null);
-      onChange(selectedWorker);
+      const selectedWorker = allAvailableSupervisors.find((s) => s.id === selectedId);
+
+      onChange(selectedWorker || null);
     }
   };
 
-  const filteredSupervisors = supervisors.filter(
-    (s) => s.id !== selectedSupervisor?.id
-  );
 
   return (
     <Select
@@ -50,13 +56,7 @@ export const SupervisorComboBox = ({
           <SelectItem value="none">Sin asignar</SelectItem>
         )}
 
-        {selectedSupervisor && (
-          <SelectItem value={selectedSupervisor.id}>
-            {selectedSupervisor.firstName} {selectedSupervisor.lastName}
-          </SelectItem>
-        )}
-
-        {filteredSupervisors.map((s) => (
+        {allAvailableSupervisors.map((s) => (
           <SelectItem key={s.id} value={s.id}>
             {s.firstName} {s.lastName}
           </SelectItem>

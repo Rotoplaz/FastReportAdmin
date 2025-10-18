@@ -17,7 +17,7 @@ export const Resumen = () => {
 
     return (
         <>
-            <div className="grid gap-4 md:grid-cols-4 sm:grid-cols-2">
+            <div className="grid gap-4 lg:grid-cols-4 grid-cols-2">
 
                 <MetricCard
                     icon={<MdReport />}
@@ -26,7 +26,7 @@ export const Resumen = () => {
                     description="+20% respecto al mes pasado"
                     variant="default"
                     size="lg"
-                    className="max-h-min w-full mr-4"
+                    className="min-h-full w-full mr-4"
                 />
 
                 <MetricCard
@@ -36,7 +36,7 @@ export const Resumen = () => {
                     description="reportes en tiempo real"
                     variant="info"
                     size="lg"
-                    className="max-h-min"
+                    className="min-h-full"
                 />
                 <MetricCard
                     icon={<FaCheckCircle />}
@@ -45,7 +45,7 @@ export const Resumen = () => {
                     description="75% tasa de resolución"
                     variant="success"
                     size="lg"
-                    className="max-h-min"
+                    className="min-h-full"
                 />
                 <MetricCard
                     icon={<BiTime />}
@@ -54,7 +54,7 @@ export const Resumen = () => {
                     description="20% del total"
                     variant="warning"
                     size="lg"
-                    className="max-h-min"
+                    className="min-h-full"
                 />
 
 

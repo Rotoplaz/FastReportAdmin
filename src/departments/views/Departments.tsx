@@ -7,13 +7,13 @@ import { useDepartmentColumns } from "../components/columns";
 
 export const Departments = () => {
 
-  const { departments } = useDepartments();
+  const { getDepartmentsQuery } = useDepartments();
   const columns = useDepartmentColumns();
   return (
     <div>
       <DataTable
         columns={columns}
-        data={departments || []}
+        data={getDepartmentsQuery.data || []}
         actions={(table) => <TableActions table={table} />}
       />
     </div>

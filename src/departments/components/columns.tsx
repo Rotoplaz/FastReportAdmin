@@ -2,16 +2,19 @@ import { ColumnDef } from "@tanstack/react-table"
 import { ArrowUpDown } from "lucide-react"
 import { Button, Checkbox } from "@/shared/components";
 import { Department } from "../interfaces/departments-response";
-import { SupervisorComboBox } from "./SupervisorSelector";
 import { updateDepartment } from "../actions/update-department";
-import { getUnassignedWorkers, UnassignedWorker } from "@/workers/actions/get-unassigned-workers";
+import { getUnassignedWorkers } from "@/workers/actions/get-unassigned-workers";
 import { toast } from "sonner";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { formatDate } from "@/shared/lib";
+import { SelectWorker } from "../../workers/components/SelectWorker";
+import { Worker } from "@/workers/interfaces/worker.response";
 
 export const useDepartmentColumns = (): ColumnDef<Department>[] => {
+    
     const queryClient = useQueryClient();
 
-    const { data: supervisors } = useQuery<UnassignedWorker[]>({
+    const { data: supervisors } = useQuery<Worker[]>({
         queryKey: ["unassigned-supervisors"],
         queryFn: getUnassignedWorkers
     });
@@ -19,7 +22,7 @@ export const useDepartmentColumns = (): ColumnDef<Department>[] => {
 
     const handleSupervisorChange = async (
         departmentId: string,
-        selected: UnassignedWorker | null
+        selected: Worker | null
     ) => {
         try {
             await updateDepartment(departmentId, { supervisorId: selected?.id || null });
@@ -96,19 +99,13 @@ export const useDepartmentColumns = (): ColumnDef<Department>[] => {
                 const departmentId = row.original.id;
 
                 return (
-                    <SupervisorComboBox
+                    <SelectWorker
                         onChange={(selected) =>
                             handleSupervisorChange(departmentId, selected)
                         }
-                        supervisors={supervisors || []}
-                        selectedSupervisor={
-                            supervisor
-                                ? {
-                                    firstName: supervisor.firstName,
-                                    lastName: supervisor.lastName,
-                                    role: "supervisor",
-                                    id: supervisor.id,
-                                }
+                        workers={supervisors || []}
+                        selectedWorker={
+                            supervisor ? supervisor as Worker
                                 : null
                         }
                         placeholder={
@@ -145,10 +142,7 @@ export const useDepartmentColumns = (): ColumnDef<Department>[] => {
             ),
             cell: ({ getValue }) => {
                 const date = new Date(getValue() as string);
-                const day = date.getDate().toString().padStart(2, "0");
-                const month = (date.getMonth() + 1).toString().padStart(2, "0");
-                const year = date.getFullYear();
-                return `${day}/${month}/${year}`;
+                return formatDate(date);
             },
             sortingFn: (rowA, rowB, columnId) => {
                 const dateA = new Date(rowA.getValue(columnId) as string).getTime();

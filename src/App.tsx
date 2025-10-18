@@ -13,6 +13,7 @@ import { Resumen } from './reports/views/Resumen';
 import { Reports } from './reports/views/Reports';
 import { Workers } from './workers/views/Workers';
 import { Departments } from './departments/views/Departments';
+import { ReportDetail } from './reports/views/ReportDetail';
 
 const queryClient = new QueryClient()
 
@@ -33,6 +34,7 @@ export const App = () => {
                 <Route path="/" element={<DashboardLayout />} >
                   <Route index element={<Resumen/>} />
                   <Route path="reportes" element={<Reports/>} />
+                  <Route path="reporte/:id" element={<ReportDetail/>} />
                   <Route path="trabajadores" element={<Workers/>} />
 
                   {user?.role === "admin" && (

@@ -10,7 +10,7 @@ import {
   SidebarMenuItem,
   SidebarRail,
 } from "@/shared/components/ui/sidebar";
-import { GalleryVerticalEnd } from "lucide-react";
+import { FaRegCircle } from "react-icons/fa";
 import { IoFileTrayFullOutline } from "react-icons/io5";
 import { RxDashboard } from "react-icons/rx";
 import { TbLogout2 } from "react-icons/tb";
@@ -36,20 +36,20 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 
 
   return (
-    <Sidebar variant="inset" {...props} collapsible="icon">
+    <Sidebar variant="sidebar" {...props} collapsible="offcanvas">
       <SidebarHeader>
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton
               size="lg"
-              className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
+              className="data-[state=open]:bg-sidebar-accent hover:bg-transparent data-[state=open]:text-sidebar-accent-foreground "
             >
-              <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-blue-500 text-sidebar-primary-foreground">
-                <GalleryVerticalEnd className="size-4" />
+              <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-[#799aab] text-sidebar-primary-foreground">
+                <FaRegCircle className="size-4" />
               </div>
 
               <div className="flex flex-col gap-0.5 leading-none">
-                <span className="font-semibold">Admin</span>
+                <span className="font-semibold">Reporte Rapido</span>
               </div>
             </SidebarMenuButton>
           </SidebarMenuItem>
@@ -67,7 +67,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                     className={cn(
                       "transition-colors duration-200",
                       {
-                        "bg-blue-500 text-white hover:bg-blue-500 hover:text-white": pathname === item.href,
+                        "bg-sidebar-primary text-white ": pathname === item.href,
                       }
                     )}
                   >
@@ -87,7 +87,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                       className={cn(
                         "transition-colors duration-200",
                         {
-                          "bg-blue-500 text-white hover:bg-blue-500 hover:text-white": pathname === item.href,
+                          "bg-sidebar-primary text-white": pathname === item.href,
                         }
                       )}
                     >

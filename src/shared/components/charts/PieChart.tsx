@@ -1,6 +1,6 @@
 import { type ChartConfig } from "@/shared/components/ui/chart"
 import { TrendingUp } from "lucide-react"
-import { LabelList, Pie, PieChart } from "recharts"
+import { Cell, LabelList, Pie, PieChart } from "recharts"
 import {
   Card,
   CardContent,
@@ -35,9 +35,9 @@ export function PieChartCard({
   data,
   footerInfo,
 }: PieChartCardProps) {
-  
+
   const filteredData = data.filter(item => item.value > 0);
-  
+
   const chartConfig = filteredData.reduce((acc, item) => {
     acc[item.label] = {
       label: item.label,
@@ -45,9 +45,9 @@ export function PieChartCard({
     };
     return acc;
   }, {} as ChartConfig);
-  
+
   return (
-    <Card className="flex flex-col">
+    <Card className="flex flex-col ">
       <CardHeader className="items-center pb-0">
         <CardTitle>{title}</CardTitle>
         {description && <CardDescription>{description}</CardDescription>}
@@ -55,11 +55,14 @@ export function PieChartCard({
       <CardContent className="flex-1 pb-0">
         <ChartContainer
           config={chartConfig}
-          className="[&_.recharts-text]:fill-background mx-auto aspect-square h-[400px] w-[400px]"
+          className="[&_.recharts-text]:fill-background mx-auto lg:h-[400px] h-[460px]  w-full aspect-auto"
         >
           <PieChart>
             <ChartTooltip content={<ChartTooltipContent nameKey="label" hideLabel />} />
             <Pie data={filteredData} dataKey="value">
+              {filteredData.map((entry, index) => (
+                <Cell key={`cell-${index}`} fill={entry.fill} />
+              ))}
               <LabelList dataKey="label" fontSize={19} />
             </Pie>
           </PieChart>

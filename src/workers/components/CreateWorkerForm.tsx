@@ -47,16 +47,23 @@ export const CreateWorkerForm = ({ onCancel, onSubmit }: Props) => {
 
 
     const onFormSubmit = async (values: z.infer<typeof formSchema>) => {
-        const worker = await createNewWorker(values);
-        if(!worker){
-            toast.error("Error Creando usuario, intente mas tarde.")
-            return;
+        try {
+
+            const worker = await createNewWorker(values);
+
+            if (onSubmit) {
+                onSubmit()
+            }
+            form.reset()
+            toast.success("Trabajador creado exitosamente", { description: `${worker?.firstName} ${worker?.lastName}` })
+        } catch (error) {
+            const message =
+                error instanceof Error ? error.message : "Error eliminando los departamentos";
+
+            toast.error("Error eliminando a los departamentos", {
+                description: message,
+            });
         }
-        if (onSubmit) {
-            onSubmit()
-        }
-        form.reset()
-        toast.success("Trabajador creado exitosamente", { description: `${worker?.firstName} ${worker?.lastName}` })
     }
 
     return (

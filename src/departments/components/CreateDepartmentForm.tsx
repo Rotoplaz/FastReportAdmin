@@ -14,9 +14,10 @@ import {
 } from "@/shared/components";
 import { toast } from "sonner";
 import { useDepartments } from "../hooks/useDepartments";
-import { SupervisorComboBox } from "./SupervisorSelector";
-import { getUnassignedWorkers, UnassignedWorker } from "@/workers/actions/get-unassigned-workers";
+import { SelectWorker } from "../../workers/components/SelectWorker";
+import { getUnassignedWorkers } from "@/workers/actions/get-unassigned-workers";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { Worker } from "@/workers/interfaces/worker.response";
 
 interface Props {
   onSubmit?: () => void;
@@ -41,12 +42,12 @@ const createDepartmentSchema = z.object({
 export const CreateDepartmentForm = ({ onSubmit, onCancel }: Props) => {
 
    const queryClient = useQueryClient();
-  const { data: supervisors = [] } = useQuery<UnassignedWorker[]>({
+  const { data: supervisors = [] } = useQuery<Worker[]>({
     queryKey: ["unassigned-supervisors"],
     queryFn: getUnassignedWorkers,
   });
 
-  const { createDepartment } = useDepartments();
+  const { createDepartmentQuery } = useDepartments();
   const form = useForm<z.infer<typeof createDepartmentSchema>>({
     resolver: zodResolver(createDepartmentSchema),
     defaultValues: {
@@ -58,7 +59,7 @@ export const CreateDepartmentForm = ({ onSubmit, onCancel }: Props) => {
 
 
   const onFormSubmit = async (values: z.infer<typeof createDepartmentSchema>) => {
-    const department = await createDepartment({ description: values.description, name: values.name, supervisorId: values.supervisorId || null });
+    const department = await createDepartmentQuery.mutateAsync({ description: values.description, name: values.name, supervisorId: values.supervisorId || null });
     if (!department) {
       toast.error("Error creando departamento");
       return;
@@ -109,10 +110,11 @@ export const CreateDepartmentForm = ({ onSubmit, onCancel }: Props) => {
             return (
               <FormItem className="flex flex-col">
                 <FormLabel className="cursor-pointer" >Supervisor (opcional)</FormLabel>
-                <SupervisorComboBox
-                  supervisors={supervisors}
-                  selectedSupervisor={null}
+                <SelectWorker
+                  workers={supervisors}
+                  selectedWorker={supervisors.find(s => s.id === form.getValues("supervisorId"))}
                   onChange={(supervisor) => {
+                    console.log(supervisor)
                     form.setValue("supervisorId", supervisor?.id);
                     form.clearErrors("supervisorId");
                   }}

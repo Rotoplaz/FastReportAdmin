@@ -5,11 +5,9 @@ import { Worker } from "../interfaces/worker.response";
 
 
 
-export const updateDepartmentWorker = async (workerId: string, departmentId: string): Promise<Worker> => {
+export const updateWorkerDepartment = async (workerId: string, departmentId: string | null): Promise<Worker> => {
     try {
-        const { data } = await reportsApi.patch<Worker>(`/users/${workerId}`, {
-            data: { departmentId }
-        });
+        const { data } = await reportsApi.patch<Worker>(`/users/${workerId}`, { departmentId });
 
         return data
     } catch (error) {
@@ -18,6 +16,6 @@ export const updateDepartmentWorker = async (workerId: string, departmentId: str
       throw new Error(data.message);
     }
 
-    throw new Error("Ocurrió un error inesperado al eliminar los departamentos.");
+    throw new Error("Ocurrió un error inesperado al actualizar el departamento.");
     }
 }
