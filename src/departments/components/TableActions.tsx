@@ -28,7 +28,6 @@ export const TableActions = ({ table }: Props) => {
       setDialogOpenDelete(false);
       toast.success("Departamentos eliminados correctamente.");
     } catch (error) {
-      console.log(error);
 
       const message =
         error instanceof Error ? error.message : "Error eliminando los departamentos";

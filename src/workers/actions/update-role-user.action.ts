@@ -20,7 +20,7 @@ export const updateRoleWorker = async (
     }
 
     throw new Error(
-      "Ocurrió un error inesperado al eliminar los departamentos."
+      "Ocurrió un error inesperado al actualizar el rol."
     );
   }
 };
