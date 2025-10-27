@@ -18,7 +18,7 @@ import {
     PromptInputFooter,
 } from '@/components/ai-elements/prompt-input';
 import {
-    Message, MessageAvatar,
+    Message,
     MessageContent,
 } from '@/components/ai-elements/message';
 

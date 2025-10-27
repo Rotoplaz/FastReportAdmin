@@ -7,9 +7,12 @@ import { useParams } from "react-router";
 import { FaLongArrowAltLeft } from "react-icons/fa";
 import { useNavigate } from "react-router";
 import {getWorkersByDepartmentId} from "@/workers/actions/get-workers-by-department-id.action.ts";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {SelectWorker} from "@/workers/components/SelectWorker.tsx";
 import {Worker} from "@/workers/interfaces/worker.response.ts";
+import {Button} from "@/shared/components";
+import {toast} from "sonner";
+import {assignWorkerToReport} from "@/workers/actions/assign-worker-to-report.action.ts";
 
 const statusColors: Record<Status, string> = {
     [Status.Pending]: "bg-yellow-500",
@@ -38,7 +41,6 @@ const priorityTranslations: Record<Priority, string> = {
 export const ReportDetail = () => {
     const params = useParams();
     const navigate = useNavigate();
-    const [selectedWorker, setSelectedWorker] = useState<Worker | null>(null);
     const { data: report, isLoading, isError, error } = useQuery({
         queryKey: ["report", params.id],
         queryFn: () => getReportDetail(params.id!),
@@ -51,12 +53,24 @@ export const ReportDetail = () => {
         queryFn: () => getWorkersByDepartmentId(report!.departmentId),
         enabled: !!report?.departmentId,
     });
+    const [selectedWorker, setSelectedWorker] = useState<Worker | null>();
+
+    useEffect(() => {
+        if(!report) return;
+        console.log()
+        setSelectedWorker(report.assignment[0]?.worker || null);
+    }, [report]);
 
     const handleAssignWorker = async () => {
-        if (!selectedWorker || !report) return;
-
-        // await assignWorkerToReport(report.id, selectedWorker.id);
-        // opcional: refetch report o workers
+        if (!selectedWorker || !report) {
+            toast.warning("Favor de seleccionar trabajador.");
+        }
+        try {
+            await assignWorkerToReport({reportId: report!.id, workerIds: [selectedWorker!.id]});
+            toast.success("Registro de asignado");
+        }catch (error: any) {
+            toast.error(error.message);
+        }
     };
 
     if (isLoading) {
@@ -135,13 +149,17 @@ export const ReportDetail = () => {
                             </CardHeader>
                             <CardContent>
                                 {workers && (
-                                    <SelectWorker
-                                        includeNoneOption
-                                        workers={workers || []}
-                                        selectedWorker={selectedWorker}
-                                        onChange={setSelectedWorker}
-                                        placeholder="Selecciona un trabajador"
-                                    />
+                                    <>
+                                        <SelectWorker
+                                            includeNoneOption
+                                            workers={workers || []}
+                                            selectedWorker={selectedWorker}
+                                            onChange={setSelectedWorker}
+                                            placeholder="Selecciona un trabajador"
+                                        />
+                                        <Button className="mt-2" onClick={handleAssignWorker}>Asignar</Button>
+                                    </>
+
                                 )}
                                 {!workers && <p>Cargando trabajadores...</p>}
                             </CardContent>
