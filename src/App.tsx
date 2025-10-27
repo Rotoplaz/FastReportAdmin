@@ -14,6 +14,7 @@ import { Reports } from './reports/views/Reports';
 import { Workers } from './workers/views/Workers';
 import { Departments } from './departments/views/Departments';
 import { ReportDetail } from './reports/views/ReportDetail';
+import ChatbotView from "@/chat-bot/views/ChatbotView.tsx";
 
 const queryClient = new QueryClient()
 
@@ -36,6 +37,7 @@ export const App = () => {
                   <Route path="reportes" element={<Reports/>} />
                   <Route path="reporte/:id" element={<ReportDetail/>} />
                   <Route path="trabajadores" element={<Workers/>} />
+                  <Route path="chat-bot" element={<ChatbotView/>} />
 
                   {user?.role === "admin" && (
                     <Route path="departamentos" element={<Departments />} />

@@ -19,6 +19,7 @@ import { useLocation } from "react-router";
 import { useAuthStore } from "@/shared/store/auth/useAuthStore";
 import { FaPerson } from "react-icons/fa6";
 import { MdOutlineCategory } from "react-icons/md";
+import { RiRobot2Line } from "react-icons/ri";
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 
@@ -28,6 +29,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     { href: "/", icon: RxDashboard, label: "Resumen" },
     { href: "/reportes", icon: IoFileTrayFullOutline, label: "Reportes" },
     { href: "/trabajadores", icon: FaPerson, label: "Trabajadores" },
+    { href: "/chat-bot", icon: RiRobot2Line, label: "Chat Bot" },
   ];
   const adminRoutes = [
     { href: "/departamentos", icon: MdOutlineCategory, label: "Departamentos" }
