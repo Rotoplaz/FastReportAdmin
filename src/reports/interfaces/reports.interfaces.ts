@@ -1,3 +1,5 @@
+import {Worker} from "@/workers/interfaces/worker.response.ts";
+
 export interface MetricsResponse {
     totalReports: number;
     reportsInProgress: number;
@@ -39,6 +41,7 @@ export interface Report {
     student:      Student;
     department:   Department;
     images:       Image[];
+    assignment: Assignment[];
 }
 
 export interface Department {
@@ -75,3 +78,13 @@ export interface Student {
 export enum Role {
     Student = "student",
 }
+
+export interface Assignment {
+    id:        string;
+    reportId:  string;
+    workerId:  string;
+    createdAt: Date;
+    updatedAt: Date;
+    worker:    Worker;
+}
+
